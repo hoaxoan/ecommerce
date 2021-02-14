@@ -1,0 +1,44 @@
+type Shop @model {
+  id: ID!
+  name: String!
+  createdAt: String
+  updatedAt: String
+}
+
+type Category @model {
+  id: ID!
+  name: String!
+  products: [Product] @connection(name: "ProductCategories", sortField: "createdAt")
+}
+
+type Product @model {
+  id: ID!
+  name: String!
+  price: Int
+  category: Category @connection(name: "ProductCategories", sortField: "createdAt")
+  photos: [Image] @connection(name: "ProductImages", sortField: "createdAt")
+  createdAt: String
+  updatedAt: String
+}
+
+
+type Image
+  @model
+{
+  id: ID!
+  fullsize: S3Object!
+  thumbnail: S3Object
+  contentType: String
+  height: Int
+  width: Int
+  size: Int
+  product: Product @connection(name: "ProductImages", sortField: "createdAt")
+  createdAt: String
+  updatedAt: String
+}
+
+type S3Object @aws_iam @aws_cognito_user_pools {
+  region: String!
+  bucket: String!
+  key: String!
+}

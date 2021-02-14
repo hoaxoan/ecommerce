@@ -1,0 +1,17 @@
+// Then import Bootstrap an BootstrapVue SCSS files (order is important)
+@import 'node_modules/bootstrap/scss/bootstrap.scss';
+@import 'node_modules/bootstrap-vue/src/index.scss';
+
+body {
+    background-color: #f8f8f8;
+    font-family: "Montserrat", Helvetica, Arial, serif;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.45;
+    color: #6e6b7b;
+    height: 100%;
+}
+
+.navbar {
+    height: 48px;
+}

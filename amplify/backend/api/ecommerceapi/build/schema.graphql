@@ -1,0 +1,375 @@
+type Shop {
+  id: ID!
+  name: String!
+  createdAt: String
+  updatedAt: String
+}
+
+type Category {
+  id: ID!
+  name: String!
+  products(createdAt: ModelStringKeyConditionInput, filter: ModelProductFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelProductConnection
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+type Product {
+  id: ID!
+  name: String!
+  price: Int
+  category: Category
+  photos(createdAt: ModelStringKeyConditionInput, filter: ModelImageFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelImageConnection
+  createdAt: String
+  updatedAt: String
+}
+
+type Image {
+  id: ID!
+  fullsize: S3Object!
+  thumbnail: S3Object
+  contentType: String
+  height: Int
+  width: Int
+  size: Int
+  product: Product
+  createdAt: String
+  updatedAt: String
+}
+
+type S3Object @aws_iam @aws_cognito_user_pools {
+  region: String!
+  bucket: String!
+  key: String!
+}
+
+enum ModelSortDirection {
+  ASC
+  DESC
+}
+
+type ModelShopConnection {
+  items: [Shop]
+  nextToken: String
+}
+
+input ModelStringInput {
+  ne: String
+  eq: String
+  le: String
+  lt: String
+  ge: String
+  gt: String
+  contains: String
+  notContains: String
+  between: [String]
+  beginsWith: String
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  size: ModelSizeInput
+}
+
+input ModelIDInput {
+  ne: ID
+  eq: ID
+  le: ID
+  lt: ID
+  ge: ID
+  gt: ID
+  contains: ID
+  notContains: ID
+  between: [ID]
+  beginsWith: ID
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  size: ModelSizeInput
+}
+
+input ModelIntInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelFloatInput {
+  ne: Float
+  eq: Float
+  le: Float
+  lt: Float
+  ge: Float
+  gt: Float
+  between: [Float]
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelBooleanInput {
+  ne: Boolean
+  eq: Boolean
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelSizeInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+}
+
+input ModelShopFilterInput {
+  id: ModelIDInput
+  name: ModelStringInput
+  createdAt: ModelStringInput
+  updatedAt: ModelStringInput
+  and: [ModelShopFilterInput]
+  or: [ModelShopFilterInput]
+  not: ModelShopFilterInput
+}
+
+enum ModelAttributeTypes {
+  binary
+  binarySet
+  bool
+  list
+  map
+  number
+  numberSet
+  string
+  stringSet
+  _null
+}
+
+type Query {
+  getShop(id: ID!): Shop
+  listShops(filter: ModelShopFilterInput, limit: Int, nextToken: String): ModelShopConnection
+  getCategory(id: ID!): Category
+  listCategorys(filter: ModelCategoryFilterInput, limit: Int, nextToken: String): ModelCategoryConnection
+  getProduct(id: ID!): Product
+  listProducts(filter: ModelProductFilterInput, limit: Int, nextToken: String): ModelProductConnection
+  getImage(id: ID!): Image
+  listImages(filter: ModelImageFilterInput, limit: Int, nextToken: String): ModelImageConnection
+}
+
+input CreateShopInput {
+  id: ID
+  name: String!
+  createdAt: String
+  updatedAt: String
+}
+
+input UpdateShopInput {
+  id: ID!
+  name: String
+  createdAt: String
+  updatedAt: String
+}
+
+input DeleteShopInput {
+  id: ID
+}
+
+type Mutation {
+  createShop(input: CreateShopInput!, condition: ModelShopConditionInput): Shop
+  updateShop(input: UpdateShopInput!, condition: ModelShopConditionInput): Shop
+  deleteShop(input: DeleteShopInput!, condition: ModelShopConditionInput): Shop
+  createCategory(input: CreateCategoryInput!, condition: ModelCategoryConditionInput): Category
+  updateCategory(input: UpdateCategoryInput!, condition: ModelCategoryConditionInput): Category
+  deleteCategory(input: DeleteCategoryInput!, condition: ModelCategoryConditionInput): Category
+  createProduct(input: CreateProductInput!, condition: ModelProductConditionInput): Product
+  updateProduct(input: UpdateProductInput!, condition: ModelProductConditionInput): Product
+  deleteProduct(input: DeleteProductInput!, condition: ModelProductConditionInput): Product
+  createImage(input: CreateImageInput!, condition: ModelImageConditionInput): Image
+  updateImage(input: UpdateImageInput!, condition: ModelImageConditionInput): Image
+  deleteImage(input: DeleteImageInput!, condition: ModelImageConditionInput): Image
+}
+
+input ModelShopConditionInput {
+  name: ModelStringInput
+  createdAt: ModelStringInput
+  updatedAt: ModelStringInput
+  and: [ModelShopConditionInput]
+  or: [ModelShopConditionInput]
+  not: ModelShopConditionInput
+}
+
+type Subscription {
+  onCreateShop: Shop @aws_subscribe(mutations: ["createShop"])
+  onUpdateShop: Shop @aws_subscribe(mutations: ["updateShop"])
+  onDeleteShop: Shop @aws_subscribe(mutations: ["deleteShop"])
+  onCreateCategory: Category @aws_subscribe(mutations: ["createCategory"])
+  onUpdateCategory: Category @aws_subscribe(mutations: ["updateCategory"])
+  onDeleteCategory: Category @aws_subscribe(mutations: ["deleteCategory"])
+  onCreateProduct: Product @aws_subscribe(mutations: ["createProduct"])
+  onUpdateProduct: Product @aws_subscribe(mutations: ["updateProduct"])
+  onDeleteProduct: Product @aws_subscribe(mutations: ["deleteProduct"])
+  onCreateImage: Image @aws_subscribe(mutations: ["createImage"])
+  onUpdateImage: Image @aws_subscribe(mutations: ["updateImage"])
+  onDeleteImage: Image @aws_subscribe(mutations: ["deleteImage"])
+}
+
+type ModelCategoryConnection {
+  items: [Category]
+  nextToken: String
+}
+
+input ModelCategoryFilterInput {
+  id: ModelIDInput
+  name: ModelStringInput
+  and: [ModelCategoryFilterInput]
+  or: [ModelCategoryFilterInput]
+  not: ModelCategoryFilterInput
+}
+
+input CreateCategoryInput {
+  id: ID
+  name: String!
+}
+
+input UpdateCategoryInput {
+  id: ID!
+  name: String
+}
+
+input DeleteCategoryInput {
+  id: ID
+}
+
+input ModelCategoryConditionInput {
+  name: ModelStringInput
+  and: [ModelCategoryConditionInput]
+  or: [ModelCategoryConditionInput]
+  not: ModelCategoryConditionInput
+}
+
+type ModelProductConnection {
+  items: [Product]
+  nextToken: String
+}
+
+input ModelProductFilterInput {
+  id: ModelIDInput
+  name: ModelStringInput
+  price: ModelIntInput
+  createdAt: ModelStringInput
+  updatedAt: ModelStringInput
+  and: [ModelProductFilterInput]
+  or: [ModelProductFilterInput]
+  not: ModelProductFilterInput
+}
+
+input CreateProductInput {
+  id: ID
+  name: String!
+  price: Int
+  createdAt: String
+  updatedAt: String
+  productCategoryId: ID
+}
+
+input UpdateProductInput {
+  id: ID!
+  name: String
+  price: Int
+  createdAt: String
+  updatedAt: String
+  productCategoryId: ID
+}
+
+input DeleteProductInput {
+  id: ID
+}
+
+input ModelProductConditionInput {
+  name: ModelStringInput
+  price: ModelIntInput
+  createdAt: ModelStringInput
+  updatedAt: ModelStringInput
+  and: [ModelProductConditionInput]
+  or: [ModelProductConditionInput]
+  not: ModelProductConditionInput
+}
+
+input S3ObjectInput {
+  region: String!
+  bucket: String!
+  key: String!
+}
+
+type ModelImageConnection {
+  items: [Image]
+  nextToken: String
+}
+
+input ModelImageFilterInput {
+  id: ModelIDInput
+  contentType: ModelStringInput
+  height: ModelIntInput
+  width: ModelIntInput
+  size: ModelIntInput
+  createdAt: ModelStringInput
+  updatedAt: ModelStringInput
+  and: [ModelImageFilterInput]
+  or: [ModelImageFilterInput]
+  not: ModelImageFilterInput
+}
+
+input CreateImageInput {
+  id: ID
+  fullsize: S3ObjectInput!
+  thumbnail: S3ObjectInput
+  contentType: String
+  height: Int
+  width: Int
+  size: Int
+  createdAt: String
+  updatedAt: String
+  imageProductId: ID
+}
+
+input UpdateImageInput {
+  id: ID!
+  fullsize: S3ObjectInput
+  thumbnail: S3ObjectInput
+  contentType: String
+  height: Int
+  width: Int
+  size: Int
+  createdAt: String
+  updatedAt: String
+  imageProductId: ID
+}
+
+input DeleteImageInput {
+  id: ID
+}
+
+input ModelImageConditionInput {
+  contentType: ModelStringInput
+  height: ModelIntInput
+  width: ModelIntInput
+  size: ModelIntInput
+  createdAt: ModelStringInput
+  updatedAt: ModelStringInput
+  and: [ModelImageConditionInput]
+  or: [ModelImageConditionInput]
+  not: ModelImageConditionInput
+}
+
+input ModelStringKeyConditionInput {
+  eq: String
+  le: String
+  lt: String
+  ge: String
+  gt: String
+  between: [String]
+  beginsWith: String
+}
