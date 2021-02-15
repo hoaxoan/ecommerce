@@ -2,60 +2,44 @@
   <div class="auth-wrapper auth-v1 px-2">
     <div class="auth-inner py-2">
 
-      <!-- Register -->
+      <!-- Login -->
       <b-card class="mb-0">
         <b-link class="brand-logo">
           <h2 class="brand-text text-primary ml-1">
-            Register
+            Sign In
           </h2>
         </b-link>
 
+         <!-- submit button -->
+          <b-button
+            variant="primary"
+            block
+            @click="signInWithGoogle"
+          >
+            Sign In with Google
+          </b-button>
+        <div class="divider my-2">
+          <div class="divider-text">
+            or
+          </div>
+        </div>
+
         <!-- form -->
-        <validation-observer ref="registerForm">
-          <b-form
+        <b-form
             class="auth-register-form mt-2"
-            @submit.prevent="validationForm"
+            @submit.prevent="login"
           >
             <!-- username -->
             <b-form-group
               label="Username"
               label-for="username"
             >
-              <validation-provider
-                #default="{ errors }"
-                name="Username"
-                rules="required"
-              >
-                <b-form-input
+              <b-form-input
                   id="username"
                   v-model="username"
-                  :state="errors.length > 0 ? false:null"
-                  name="register-username"
+                  name="username"
                   placeholder="johndoe"
                 />
-                <small class="text-danger">{{ errors[0] }}</small>
-              </validation-provider>
-            </b-form-group>
-
-            <!-- email -->
-            <b-form-group
-              label="Email"
-              label-for="email"
-            >
-              <validation-provider
-                #default="{ errors }"
-                name="Email"
-                rules="required|email"
-              >
-                <b-form-input
-                  id="email"
-                  v-model="email"
-                  :state="errors.length > 0 ? false:null"
-                  name="register-email"
-                  placeholder="john@example.com"
-                />
-                <small class="text-danger">{{ errors[0] }}</small>
-              </validation-provider>
             </b-form-group>
 
             <!-- password -->
@@ -63,22 +47,14 @@
               label="Password"
               label-for="password"
             >
-              <validation-provider
-                #default="{ errors }"
-                name="Password"
-                rules="required"
-              >
-               <b-form-input
-                    id="password"
-                    v-model="password"
-                    :type="password"
-                    :state="errors.length > 0 ? false:null"
-                    class="form-control-merge"
-                    name="register-password"
-                    placeholder="*********"
-                  />
-                <small class="text-danger">{{ errors[0] }}</small>
-              </validation-provider>
+              <b-form-input
+                  id="password"
+                  v-model="password"
+                  type="password"
+                  class="form-control-merge"
+                  name="register-password"
+                  placeholder="*********"
+                />
             </b-form-group>
 
             <!-- submit button -->
@@ -87,15 +63,14 @@
               block
               type="submit"
             >
-              Register
+              Sign In
             </b-button>
           </b-form>
-        </validation-observer>
 
         <b-card-text class="text-center mt-2">
-          <span>Already have an account? </span>
-          <b-link :to="{name:'auth-login-v1'}">
-            <span>Sign in</span>
+          <span>Not have an account? </span>
+          <b-link :to="{name:'signup'}">
+            <span>Sign Up</span>
           </b-link>
         </b-card-text>
       </b-card>
@@ -105,12 +80,11 @@
 </template>
 
 <script>
-import { ValidationProvider, ValidationObserver } from 'vee-validate'
 import {
   BCard, BLink, BForm,
   BButton, BFormInput, BFormGroup
 } from 'bootstrap-vue'
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   components: {
@@ -121,29 +95,63 @@ export default {
     BButton,
     BFormInput,
     BFormGroup,
-    // validations
-    ValidationProvider,
-    ValidationObserver,
   },
   data: () => ({
     username: "",
     password: "",
-    email: "",
     error: ""
   }),
   computed: {
+    ...mapGetters({
+    }),
   },
   methods: {
     ...mapActions({
-      loginVue: "auth/login",
+      loginWithUserNameAndPassword: "auth/login",
+      loginWithGoogle: "auth/signInWithGoogle"
     }),
+    async signInWithGoogle() {
+      try {
+        var user = await this.loginWithGoogle();
+
+        await this.createUser(user);
+        this.$router.push("/home");
+      } catch (error) {
+        this.error = error;
+      }
+    },
     async login() {
       try {
-        await this.loginVue({
+        var user = await this.loginWithUserNameAndPassword({
           username: this.username,
           password: this.password,
         });
-        this.$router.push("/albums");
+
+        await this.createUser(user);
+        this.$router.push("/home");
+      } catch (error) {
+        this.error = error;
+      }
+    },
+    async createUser(user) {
+      try {
+        this.error = "";
+        if (!user) {
+          this.error = "Please enter an login";
+          return;
+        }
+        const newUser = {
+          ownerId: user.id,
+          owner: user.username,
+          name: user.username,
+          username: user.username
+        };
+
+        if (user.attributes != null && user.attributes.email != null) {
+            newUser.email = user.attributes.email;
+        }
+
+        await this.$store.dispatch("users/createUser", newUser);
       } catch (error) {
         this.error = error;
       }

@@ -1,6 +1,57 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const createUser = /* GraphQL */ `
+  mutation CreateUser(
+    $input: CreateUserInput!
+    $condition: ModelUserConditionInput
+  ) {
+    createUser(input: $input, condition: $condition) {
+      id
+      ownerId
+      owner
+      username
+      name
+      email
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateUser = /* GraphQL */ `
+  mutation UpdateUser(
+    $input: UpdateUserInput!
+    $condition: ModelUserConditionInput
+  ) {
+    updateUser(input: $input, condition: $condition) {
+      id
+      ownerId
+      owner
+      username
+      name
+      email
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteUser = /* GraphQL */ `
+  mutation DeleteUser(
+    $input: DeleteUserInput!
+    $condition: ModelUserConditionInput
+  ) {
+    deleteUser(input: $input, condition: $condition) {
+      id
+      ownerId
+      owner
+      username
+      name
+      email
+      createdAt
+      updatedAt
+    }
+  }
+`;
 export const createShop = /* GraphQL */ `
   mutation CreateShop(
     $input: CreateShopInput!
@@ -9,8 +60,10 @@ export const createShop = /* GraphQL */ `
     createShop(input: $input, condition: $condition) {
       id
       name
+      userId
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -22,8 +75,10 @@ export const updateShop = /* GraphQL */ `
     updateShop(input: $input, condition: $condition) {
       id
       name
+      userId
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -35,8 +90,10 @@ export const deleteShop = /* GraphQL */ `
     deleteShop(input: $input, condition: $condition) {
       id
       name
+      userId
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -53,6 +110,7 @@ export const createCategory = /* GraphQL */ `
       }
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -69,6 +127,7 @@ export const updateCategory = /* GraphQL */ `
       }
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -85,6 +144,7 @@ export const deleteCategory = /* GraphQL */ `
       }
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -102,12 +162,14 @@ export const createProduct = /* GraphQL */ `
         name
         createdAt
         updatedAt
+        owner
       }
       photos {
         nextToken
       }
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -125,12 +187,14 @@ export const updateProduct = /* GraphQL */ `
         name
         createdAt
         updatedAt
+        owner
       }
       photos {
         nextToken
       }
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -148,12 +212,14 @@ export const deleteProduct = /* GraphQL */ `
         name
         createdAt
         updatedAt
+        owner
       }
       photos {
         nextToken
       }
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -184,9 +250,11 @@ export const createImage = /* GraphQL */ `
         price
         createdAt
         updatedAt
+        owner
       }
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -217,9 +285,11 @@ export const updateImage = /* GraphQL */ `
         price
         createdAt
         updatedAt
+        owner
       }
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -250,9 +320,11 @@ export const deleteImage = /* GraphQL */ `
         price
         createdAt
         updatedAt
+        owner
       }
       createdAt
       updatedAt
+      owner
     }
   }
 `;

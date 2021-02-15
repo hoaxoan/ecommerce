@@ -16,6 +16,7 @@ module.exports = {
       alias: {
       },
     },
+    devtool: 'source-map'
   },
   chainWebpack: config => {
     config.module

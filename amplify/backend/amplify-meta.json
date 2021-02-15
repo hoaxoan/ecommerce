@@ -18,26 +18,37 @@
       "providerPlugin": "awscloudformation",
       "dependsOn": [],
       "customAuth": false,
-      "providerMetadata": {
-        "s3TemplateURL": "https://s3.amazonaws.com/amplify-ecommerce-dev-84455-deployment/amplify-cfn-templates/auth/ecommerceceee04c2-cloudformation-template.yml",
-        "logicalId": "authecommerceceee04c2"
-      },
-      "lastPushTimeStamp": "2021-02-14T02:33:09.179Z",
       "output": {
         "UserPoolId": "us-east-2_KB3NAVwOd",
         "AppClientIDWeb": "na8uuppabb7lvf8sjiiqj2u55",
         "AppClientID": "10u1ean11nubg0rpc05skhi940",
+        "HostedUIDomain": "ecommerceauth-dev",
         "IdentityPoolId": "us-east-2:28be0751-3721-43c0-ac30-72a10241d7e1",
         "IdentityPoolName": "ecommerceceee04c2_identitypool_ceee04c2__dev",
+        "OAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"http://localhost:8080/\"],\"LogoutURLs\":[\"http://localhost:8080/\"]}",
         "UserPoolName": "ecommerceceee04c2_userpool_ceee04c2"
       },
-      "lastPushDirHash": "7GY/fYeF5y2y4hymLKZXMxgNYIo="
+      "lastPushTimeStamp": "2021-02-15T11:57:59.117Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-ecommerce-dev-84455-deployment/amplify-cfn-templates/auth/ecommerceceee04c2-cloudformation-template.yml",
+        "logicalId": "authecommerceceee04c2"
+      },
+      "lastPushDirHash": "/61B4Iex09LXYQknAzDywOC6lI0="
     }
   },
   "storage": {
     "AmplifyPhotoStorage": {
       "service": "S3",
-      "providerPlugin": "awscloudformation"
+      "providerPlugin": "awscloudformation",
+      "output": {
+        "BucketName": "ecommerce537e1cf3046b437e855f2f3427a71ebc84455-dev",
+        "Region": "us-east-2"
+      },
+      "lastPushTimeStamp": "2021-02-15T11:57:59.122Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-ecommerce-dev-84455-deployment/amplify-cfn-templates/storage/s3-cloudformation-template.json",
+        "logicalId": "storageAmplifyPhotoStorage"
+      }
     }
   },
   "api": {
@@ -53,8 +64,16 @@
             }
           },
           "additionalAuthenticationProviders": []
-        }
-      }
+        },
+        "GraphQLAPIIdOutput": "ofgmtnb5ffahjh3hwbuktj2emq",
+        "GraphQLAPIEndpointOutput": "https://4eemxtmyazf6jexi73qrzrigpu.appsync-api.us-east-2.amazonaws.com/graphql"
+      },
+      "lastPushTimeStamp": "2021-02-15T11:58:00.320Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-ecommerce-dev-84455-deployment/amplify-cfn-templates/api/cloudformation-template.json",
+        "logicalId": "apiecommerceapi"
+      },
+      "lastPushDirHash": "KhufjE/U0xoRmDDXhnPdAzhmgYc="
     }
   }
 }

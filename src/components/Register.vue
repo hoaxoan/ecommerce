@@ -11,30 +11,21 @@
         </b-link>
 
         <!-- form -->
-        <validation-observer ref="registerForm">
-          <b-form
+        <b-form
             class="auth-register-form mt-2"
-            @submit.prevent="validationForm"
+            @submit.prevent="signUp"
           >
             <!-- username -->
             <b-form-group
               label="Username"
               label-for="username"
             >
-              <validation-provider
-                #default="{ errors }"
-                name="Username"
-                rules="required"
-              >
-                <b-form-input
+              <b-form-input
                   id="username"
                   v-model="username"
-                  :state="errors.length > 0 ? false:null"
                   name="register-username"
                   placeholder="johndoe"
                 />
-                <small class="text-danger">{{ errors[0] }}</small>
-              </validation-provider>
             </b-form-group>
 
             <!-- email -->
@@ -42,20 +33,12 @@
               label="Email"
               label-for="email"
             >
-              <validation-provider
-                #default="{ errors }"
-                name="Email"
-                rules="required|email"
-              >
-                <b-form-input
+              <b-form-input
                   id="email"
                   v-model="email"
-                  :state="errors.length > 0 ? false:null"
-                  name="register-email"
+                  name="email"
                   placeholder="john@example.com"
                 />
-                <small class="text-danger">{{ errors[0] }}</small>
-              </validation-provider>
             </b-form-group>
 
             <!-- password -->
@@ -63,22 +46,14 @@
               label="Password"
               label-for="password"
             >
-              <validation-provider
-                #default="{ errors }"
-                name="Password"
-                rules="required"
-              >
-               <b-form-input
+              <b-form-input
                     id="password"
                     v-model="password"
-                    :type="password"
-                    :state="errors.length > 0 ? false:null"
+                    type="password"
                     class="form-control-merge"
                     name="register-password"
                     placeholder="*********"
                   />
-                <small class="text-danger">{{ errors[0] }}</small>
-              </validation-provider>
             </b-form-group>
 
             <!-- submit button -->
@@ -90,11 +65,10 @@
               Register
             </b-button>
           </b-form>
-        </validation-observer>
 
         <b-card-text class="text-center mt-2">
           <span>Already have an account? </span>
-          <b-link :to="{name:'auth-login-v1'}">
+          <b-link :to="{name:'login'}">
             <span>Sign in</span>
           </b-link>
         </b-card-text>
@@ -105,12 +79,10 @@
 </template>
 
 <script>
-import { ValidationProvider, ValidationObserver } from 'vee-validate'
 import {
   BCard, BLink, BForm,
   BButton, BFormInput, BFormGroup
 } from 'bootstrap-vue'
-import { mapActions } from "vuex";
 
 export default {
   components: {
@@ -120,31 +92,53 @@ export default {
     BForm,
     BButton,
     BFormInput,
-    BFormGroup,
-    // validations
-    ValidationProvider,
-    ValidationObserver,
+    BFormGroup
   },
   data: () => ({
     username: "",
     password: "",
     email: "",
-    error: ""
+    error: "",
+    confirmPassword: false,
+    code: "",
   }),
   computed: {
   },
   methods: {
-    ...mapActions({
-      loginVue: "auth/login",
-    }),
-    async login() {
+    async signUp() {
+      if (!this.email || !this.password) {
+        return;
+      }
       try {
-        await this.loginVue({
+        await this.$store.dispatch("auth/signUp", {
           username: this.username,
           password: this.password,
+          email: this.email,
+        });
+
+        this.confirmPassword = true;
+      } catch (error) {
+        this.error = error;
+      }
+    },
+    async confirmSignUp() {
+      if (!this.username || !this.code) {
+        return;
+      }
+
+      try {
+        const { username, password, code } = this;
+        await this.$store.dispatch("auth/confirmSignUp", {
+          username,
+          code,
+        });
+        await this.$store.dispatch("auth/login", {
+          username,
+          password,
         });
         this.$router.push("/albums");
       } catch (error) {
+        console.log(error);
         this.error = error;
       }
     },
@@ -153,6 +147,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
 .auth-wrapper {
     display: flex;
     flex-basis: 100%;

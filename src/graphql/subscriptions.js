@@ -1,39 +1,87 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const onCreateShop = /* GraphQL */ `
-  subscription OnCreateShop {
-    onCreateShop {
+export const onCreateUser = /* GraphQL */ `
+  subscription OnCreateUser($owner: String!) {
+    onCreateUser(owner: $owner) {
       id
+      ownerId
+      owner
+      username
       name
+      email
       createdAt
       updatedAt
+    }
+  }
+`;
+export const onUpdateUser = /* GraphQL */ `
+  subscription OnUpdateUser($owner: String!) {
+    onUpdateUser(owner: $owner) {
+      id
+      ownerId
+      owner
+      username
+      name
+      email
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteUser = /* GraphQL */ `
+  subscription OnDeleteUser($owner: String!) {
+    onDeleteUser(owner: $owner) {
+      id
+      ownerId
+      owner
+      username
+      name
+      email
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onCreateShop = /* GraphQL */ `
+  subscription OnCreateShop($owner: String!) {
+    onCreateShop(owner: $owner) {
+      id
+      name
+      userId
+      createdAt
+      updatedAt
+      owner
     }
   }
 `;
 export const onUpdateShop = /* GraphQL */ `
-  subscription OnUpdateShop {
-    onUpdateShop {
+  subscription OnUpdateShop($owner: String!) {
+    onUpdateShop(owner: $owner) {
       id
       name
+      userId
       createdAt
       updatedAt
+      owner
     }
   }
 `;
 export const onDeleteShop = /* GraphQL */ `
-  subscription OnDeleteShop {
-    onDeleteShop {
+  subscription OnDeleteShop($owner: String!) {
+    onDeleteShop(owner: $owner) {
       id
       name
+      userId
       createdAt
       updatedAt
+      owner
     }
   }
 `;
 export const onCreateCategory = /* GraphQL */ `
-  subscription OnCreateCategory {
-    onCreateCategory {
+  subscription OnCreateCategory($owner: String!) {
+    onCreateCategory(owner: $owner) {
       id
       name
       products {
@@ -41,12 +89,13 @@ export const onCreateCategory = /* GraphQL */ `
       }
       createdAt
       updatedAt
+      owner
     }
   }
 `;
 export const onUpdateCategory = /* GraphQL */ `
-  subscription OnUpdateCategory {
-    onUpdateCategory {
+  subscription OnUpdateCategory($owner: String!) {
+    onUpdateCategory(owner: $owner) {
       id
       name
       products {
@@ -54,12 +103,13 @@ export const onUpdateCategory = /* GraphQL */ `
       }
       createdAt
       updatedAt
+      owner
     }
   }
 `;
 export const onDeleteCategory = /* GraphQL */ `
-  subscription OnDeleteCategory {
-    onDeleteCategory {
+  subscription OnDeleteCategory($owner: String!) {
+    onDeleteCategory(owner: $owner) {
       id
       name
       products {
@@ -67,12 +117,13 @@ export const onDeleteCategory = /* GraphQL */ `
       }
       createdAt
       updatedAt
+      owner
     }
   }
 `;
 export const onCreateProduct = /* GraphQL */ `
-  subscription OnCreateProduct {
-    onCreateProduct {
+  subscription OnCreateProduct($owner: String!) {
+    onCreateProduct(owner: $owner) {
       id
       name
       price
@@ -81,18 +132,20 @@ export const onCreateProduct = /* GraphQL */ `
         name
         createdAt
         updatedAt
+        owner
       }
       photos {
         nextToken
       }
       createdAt
       updatedAt
+      owner
     }
   }
 `;
 export const onUpdateProduct = /* GraphQL */ `
-  subscription OnUpdateProduct {
-    onUpdateProduct {
+  subscription OnUpdateProduct($owner: String!) {
+    onUpdateProduct(owner: $owner) {
       id
       name
       price
@@ -101,18 +154,20 @@ export const onUpdateProduct = /* GraphQL */ `
         name
         createdAt
         updatedAt
+        owner
       }
       photos {
         nextToken
       }
       createdAt
       updatedAt
+      owner
     }
   }
 `;
 export const onDeleteProduct = /* GraphQL */ `
-  subscription OnDeleteProduct {
-    onDeleteProduct {
+  subscription OnDeleteProduct($owner: String!) {
+    onDeleteProduct(owner: $owner) {
       id
       name
       price
@@ -121,18 +176,20 @@ export const onDeleteProduct = /* GraphQL */ `
         name
         createdAt
         updatedAt
+        owner
       }
       photos {
         nextToken
       }
       createdAt
       updatedAt
+      owner
     }
   }
 `;
 export const onCreateImage = /* GraphQL */ `
-  subscription OnCreateImage {
-    onCreateImage {
+  subscription OnCreateImage($owner: String!) {
+    onCreateImage(owner: $owner) {
       id
       fullsize {
         region
@@ -154,15 +211,17 @@ export const onCreateImage = /* GraphQL */ `
         price
         createdAt
         updatedAt
+        owner
       }
       createdAt
       updatedAt
+      owner
     }
   }
 `;
 export const onUpdateImage = /* GraphQL */ `
-  subscription OnUpdateImage {
-    onUpdateImage {
+  subscription OnUpdateImage($owner: String!) {
+    onUpdateImage(owner: $owner) {
       id
       fullsize {
         region
@@ -184,15 +243,17 @@ export const onUpdateImage = /* GraphQL */ `
         price
         createdAt
         updatedAt
+        owner
       }
       createdAt
       updatedAt
+      owner
     }
   }
 `;
 export const onDeleteImage = /* GraphQL */ `
-  subscription OnDeleteImage {
-    onDeleteImage {
+  subscription OnDeleteImage($owner: String!) {
+    onDeleteImage(owner: $owner) {
       id
       fullsize {
         region
@@ -214,9 +275,11 @@ export const onDeleteImage = /* GraphQL */ `
         price
         createdAt
         updatedAt
+        owner
       }
       createdAt
       updatedAt
+      owner
     }
   }
 `;

@@ -86,7 +86,7 @@
         }
     },
     "Resources": {
-        "TodoTable": {
+        "ImageTable": {
             "Type": "AWS::DynamoDB::Table",
             "Properties": {
                 "TableName": {
@@ -96,7 +96,7 @@
                             "Fn::Join": [
                                 "-",
                                 [
-                                    "Todo",
+                                    "Image",
                                     {
                                         "Ref": "GetAttGraphQLAPIApiId"
                                     },
@@ -110,7 +110,7 @@
                             "Fn::Join": [
                                 "-",
                                 [
-                                    "Todo",
+                                    "Image",
                                     {
                                         "Ref": "GetAttGraphQLAPIApiId"
                                     }
@@ -128,6 +128,14 @@
                 "AttributeDefinitions": [
                     {
                         "AttributeName": "id",
+                        "AttributeType": "S"
+                    },
+                    {
+                        "AttributeName": "imageProductId",
+                        "AttributeType": "S"
+                    },
+                    {
+                        "AttributeName": "createdAt",
                         "AttributeType": "S"
                     }
                 ],
@@ -178,11 +186,45 @@
                             "Ref": "AWS::NoValue"
                         }
                     ]
-                }
+                },
+                "GlobalSecondaryIndexes": [
+                    {
+                        "IndexName": "gsi-ProductImages",
+                        "KeySchema": [
+                            {
+                                "AttributeName": "imageProductId",
+                                "KeyType": "HASH"
+                            },
+                            {
+                                "AttributeName": "createdAt",
+                                "KeyType": "RANGE"
+                            }
+                        ],
+                        "Projection": {
+                            "ProjectionType": "ALL"
+                        },
+                        "ProvisionedThroughput": {
+                            "Fn::If": [
+                                "ShouldUsePayPerRequestBilling",
+                                {
+                                    "Ref": "AWS::NoValue"
+                                },
+                                {
+                                    "ReadCapacityUnits": {
+                                        "Ref": "DynamoDBModelTableReadIOPS"
+                                    },
+                                    "WriteCapacityUnits": {
+                                        "Ref": "DynamoDBModelTableWriteIOPS"
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                ]
             },
             "DeletionPolicy": "Delete"
         },
-        "TodoIAMRole": {
+        "ImageIAMRole": {
             "Type": "AWS::IAM::Role",
             "Properties": {
                 "RoleName": {
@@ -192,7 +234,7 @@
                             "Fn::Join": [
                                 "-",
                                 [
-                                    "Todo0107c6",
+                                    "Image6ecb87",
                                     "role",
                                     {
                                         "Ref": "GetAttGraphQLAPIApiId"
@@ -207,7 +249,7 @@
                             "Fn::Join": [
                                 "-",
                                 [
-                                    "Todo52029a",
+                                    "Imagec584b0",
                                     "role",
                                     {
                                         "Ref": "GetAttGraphQLAPIApiId"
@@ -259,7 +301,7 @@
                                                                 "Fn::Join": [
                                                                     "-",
                                                                     [
-                                                                        "Todo",
+                                                                        "Image",
                                                                         {
                                                                             "Ref": "GetAttGraphQLAPIApiId"
                                                                         },
@@ -273,7 +315,7 @@
                                                                 "Fn::Join": [
                                                                     "-",
                                                                     [
-                                                                        "Todo",
+                                                                        "Image",
                                                                         {
                                                                             "Ref": "GetAttGraphQLAPIApiId"
                                                                         }
@@ -296,7 +338,7 @@
                                                                 "Fn::Join": [
                                                                     "-",
                                                                     [
-                                                                        "Todo",
+                                                                        "Image",
                                                                         {
                                                                             "Ref": "GetAttGraphQLAPIApiId"
                                                                         },
@@ -310,7 +352,7 @@
                                                                 "Fn::Join": [
                                                                     "-",
                                                                     [
-                                                                        "Todo",
+                                                                        "Image",
                                                                         {
                                                                             "Ref": "GetAttGraphQLAPIApiId"
                                                                         }
@@ -330,17 +372,17 @@
                 ]
             }
         },
-        "TodoDataSource": {
+        "ImageDataSource": {
             "Type": "AWS::AppSync::DataSource",
             "Properties": {
                 "ApiId": {
                     "Ref": "GetAttGraphQLAPIApiId"
                 },
-                "Name": "TodoTable",
+                "Name": "ImageTable",
                 "Type": "AMAZON_DYNAMODB",
                 "ServiceRoleArn": {
                     "Fn::GetAtt": [
-                        "TodoIAMRole",
+                        "ImageIAMRole",
                         "Arn"
                     ]
                 },
@@ -355,7 +397,7 @@
                                 "Fn::Join": [
                                     "-",
                                     [
-                                        "Todo",
+                                        "Image",
                                         {
                                             "Ref": "GetAttGraphQLAPIApiId"
                                         },
@@ -369,7 +411,7 @@
                                 "Fn::Join": [
                                     "-",
                                     [
-                                        "Todo",
+                                        "Image",
                                         {
                                             "Ref": "GetAttGraphQLAPIApiId"
                                         }
@@ -381,10 +423,10 @@
                 }
             },
             "DependsOn": [
-                "TodoIAMRole"
+                "ImageIAMRole"
             ]
         },
-        "GetTodoResolver": {
+        "GetImageResolver": {
             "Type": "AWS::AppSync::Resolver",
             "Properties": {
                 "ApiId": {
@@ -392,11 +434,11 @@
                 },
                 "DataSourceName": {
                     "Fn::GetAtt": [
-                        "TodoDataSource",
+                        "ImageDataSource",
                         "Name"
                     ]
                 },
-                "FieldName": "getTodo",
+                "FieldName": "getImage",
                 "TypeName": "Query",
                 "RequestMappingTemplateS3Location": {
                     "Fn::Sub": [
@@ -413,7 +455,7 @@
                                     ".",
                                     [
                                         "Query",
-                                        "getTodo",
+                                        "getImage",
                                         "req",
                                         "vtl"
                                     ]
@@ -437,7 +479,7 @@
                                     ".",
                                     [
                                         "Query",
-                                        "getTodo",
+                                        "getImage",
                                         "res",
                                         "vtl"
                                     ]
@@ -448,7 +490,7 @@
                 }
             }
         },
-        "ListTodoResolver": {
+        "ListImageResolver": {
             "Type": "AWS::AppSync::Resolver",
             "Properties": {
                 "ApiId": {
@@ -456,11 +498,11 @@
                 },
                 "DataSourceName": {
                     "Fn::GetAtt": [
-                        "TodoDataSource",
+                        "ImageDataSource",
                         "Name"
                     ]
                 },
-                "FieldName": "listTodos",
+                "FieldName": "listImages",
                 "TypeName": "Query",
                 "RequestMappingTemplateS3Location": {
                     "Fn::Sub": [
@@ -477,7 +519,7 @@
                                     ".",
                                     [
                                         "Query",
-                                        "listTodos",
+                                        "listImages",
                                         "req",
                                         "vtl"
                                     ]
@@ -501,7 +543,7 @@
                                     ".",
                                     [
                                         "Query",
-                                        "listTodos",
+                                        "listImages",
                                         "res",
                                         "vtl"
                                     ]
@@ -512,7 +554,7 @@
                 }
             }
         },
-        "CreateTodoResolver": {
+        "CreateImageResolver": {
             "Type": "AWS::AppSync::Resolver",
             "Properties": {
                 "ApiId": {
@@ -520,11 +562,11 @@
                 },
                 "DataSourceName": {
                     "Fn::GetAtt": [
-                        "TodoDataSource",
+                        "ImageDataSource",
                         "Name"
                     ]
                 },
-                "FieldName": "createTodo",
+                "FieldName": "createImage",
                 "TypeName": "Mutation",
                 "RequestMappingTemplateS3Location": {
                     "Fn::Sub": [
@@ -541,7 +583,7 @@
                                     ".",
                                     [
                                         "Mutation",
-                                        "createTodo",
+                                        "createImage",
                                         "req",
                                         "vtl"
                                     ]
@@ -565,7 +607,7 @@
                                     ".",
                                     [
                                         "Mutation",
-                                        "createTodo",
+                                        "createImage",
                                         "res",
                                         "vtl"
                                     ]
@@ -576,7 +618,7 @@
                 }
             }
         },
-        "UpdateTodoResolver": {
+        "UpdateImageResolver": {
             "Type": "AWS::AppSync::Resolver",
             "Properties": {
                 "ApiId": {
@@ -584,11 +626,11 @@
                 },
                 "DataSourceName": {
                     "Fn::GetAtt": [
-                        "TodoDataSource",
+                        "ImageDataSource",
                         "Name"
                     ]
                 },
-                "FieldName": "updateTodo",
+                "FieldName": "updateImage",
                 "TypeName": "Mutation",
                 "RequestMappingTemplateS3Location": {
                     "Fn::Sub": [
@@ -605,7 +647,7 @@
                                     ".",
                                     [
                                         "Mutation",
-                                        "updateTodo",
+                                        "updateImage",
                                         "req",
                                         "vtl"
                                     ]
@@ -629,7 +671,7 @@
                                     ".",
                                     [
                                         "Mutation",
-                                        "updateTodo",
+                                        "updateImage",
                                         "res",
                                         "vtl"
                                     ]
@@ -640,7 +682,7 @@
                 }
             }
         },
-        "DeleteTodoResolver": {
+        "DeleteImageResolver": {
             "Type": "AWS::AppSync::Resolver",
             "Properties": {
                 "ApiId": {
@@ -648,11 +690,11 @@
                 },
                 "DataSourceName": {
                     "Fn::GetAtt": [
-                        "TodoDataSource",
+                        "ImageDataSource",
                         "Name"
                     ]
                 },
-                "FieldName": "deleteTodo",
+                "FieldName": "deleteImage",
                 "TypeName": "Mutation",
                 "RequestMappingTemplateS3Location": {
                     "Fn::Sub": [
@@ -669,7 +711,7 @@
                                     ".",
                                     [
                                         "Mutation",
-                                        "deleteTodo",
+                                        "deleteImage",
                                         "req",
                                         "vtl"
                                     ]
@@ -693,7 +735,184 @@
                                     ".",
                                     [
                                         "Mutation",
-                                        "deleteTodo",
+                                        "deleteImage",
+                                        "res",
+                                        "vtl"
+                                    ]
+                                ]
+                            }
+                        }
+                    ]
+                }
+            }
+        },
+        "SubscriptiononCreateImageResolver": {
+            "Type": "AWS::AppSync::Resolver",
+            "Properties": {
+                "ApiId": {
+                    "Ref": "GetAttGraphQLAPIApiId"
+                },
+                "DataSourceName": "NONE",
+                "FieldName": "onCreateImage",
+                "TypeName": "Subscription",
+                "RequestMappingTemplateS3Location": {
+                    "Fn::Sub": [
+                        "s3://${S3DeploymentBucket}/${S3DeploymentRootKey}/resolvers/${ResolverFileName}",
+                        {
+                            "S3DeploymentBucket": {
+                                "Ref": "S3DeploymentBucket"
+                            },
+                            "S3DeploymentRootKey": {
+                                "Ref": "S3DeploymentRootKey"
+                            },
+                            "ResolverFileName": {
+                                "Fn::Join": [
+                                    ".",
+                                    [
+                                        "Subscription",
+                                        "onCreateImage",
+                                        "req",
+                                        "vtl"
+                                    ]
+                                ]
+                            }
+                        }
+                    ]
+                },
+                "ResponseMappingTemplateS3Location": {
+                    "Fn::Sub": [
+                        "s3://${S3DeploymentBucket}/${S3DeploymentRootKey}/resolvers/${ResolverFileName}",
+                        {
+                            "S3DeploymentBucket": {
+                                "Ref": "S3DeploymentBucket"
+                            },
+                            "S3DeploymentRootKey": {
+                                "Ref": "S3DeploymentRootKey"
+                            },
+                            "ResolverFileName": {
+                                "Fn::Join": [
+                                    ".",
+                                    [
+                                        "Subscription",
+                                        "onCreateImage",
+                                        "res",
+                                        "vtl"
+                                    ]
+                                ]
+                            }
+                        }
+                    ]
+                }
+            }
+        },
+        "SubscriptiononUpdateImageResolver": {
+            "Type": "AWS::AppSync::Resolver",
+            "Properties": {
+                "ApiId": {
+                    "Ref": "GetAttGraphQLAPIApiId"
+                },
+                "DataSourceName": "NONE",
+                "FieldName": "onUpdateImage",
+                "TypeName": "Subscription",
+                "RequestMappingTemplateS3Location": {
+                    "Fn::Sub": [
+                        "s3://${S3DeploymentBucket}/${S3DeploymentRootKey}/resolvers/${ResolverFileName}",
+                        {
+                            "S3DeploymentBucket": {
+                                "Ref": "S3DeploymentBucket"
+                            },
+                            "S3DeploymentRootKey": {
+                                "Ref": "S3DeploymentRootKey"
+                            },
+                            "ResolverFileName": {
+                                "Fn::Join": [
+                                    ".",
+                                    [
+                                        "Subscription",
+                                        "onUpdateImage",
+                                        "req",
+                                        "vtl"
+                                    ]
+                                ]
+                            }
+                        }
+                    ]
+                },
+                "ResponseMappingTemplateS3Location": {
+                    "Fn::Sub": [
+                        "s3://${S3DeploymentBucket}/${S3DeploymentRootKey}/resolvers/${ResolverFileName}",
+                        {
+                            "S3DeploymentBucket": {
+                                "Ref": "S3DeploymentBucket"
+                            },
+                            "S3DeploymentRootKey": {
+                                "Ref": "S3DeploymentRootKey"
+                            },
+                            "ResolverFileName": {
+                                "Fn::Join": [
+                                    ".",
+                                    [
+                                        "Subscription",
+                                        "onUpdateImage",
+                                        "res",
+                                        "vtl"
+                                    ]
+                                ]
+                            }
+                        }
+                    ]
+                }
+            }
+        },
+        "SubscriptiononDeleteImageResolver": {
+            "Type": "AWS::AppSync::Resolver",
+            "Properties": {
+                "ApiId": {
+                    "Ref": "GetAttGraphQLAPIApiId"
+                },
+                "DataSourceName": "NONE",
+                "FieldName": "onDeleteImage",
+                "TypeName": "Subscription",
+                "RequestMappingTemplateS3Location": {
+                    "Fn::Sub": [
+                        "s3://${S3DeploymentBucket}/${S3DeploymentRootKey}/resolvers/${ResolverFileName}",
+                        {
+                            "S3DeploymentBucket": {
+                                "Ref": "S3DeploymentBucket"
+                            },
+                            "S3DeploymentRootKey": {
+                                "Ref": "S3DeploymentRootKey"
+                            },
+                            "ResolverFileName": {
+                                "Fn::Join": [
+                                    ".",
+                                    [
+                                        "Subscription",
+                                        "onDeleteImage",
+                                        "req",
+                                        "vtl"
+                                    ]
+                                ]
+                            }
+                        }
+                    ]
+                },
+                "ResponseMappingTemplateS3Location": {
+                    "Fn::Sub": [
+                        "s3://${S3DeploymentBucket}/${S3DeploymentRootKey}/resolvers/${ResolverFileName}",
+                        {
+                            "S3DeploymentBucket": {
+                                "Ref": "S3DeploymentBucket"
+                            },
+                            "S3DeploymentRootKey": {
+                                "Ref": "S3DeploymentRootKey"
+                            },
+                            "ResolverFileName": {
+                                "Fn::Join": [
+                                    ".",
+                                    [
+                                        "Subscription",
+                                        "onDeleteImage",
                                         "res",
                                         "vtl"
                                     ]
@@ -706,11 +925,11 @@
         }
     },
     "Outputs": {
-        "GetAttTodoTableStreamArn": {
+        "GetAttImageTableStreamArn": {
             "Description": "Your DynamoDB table StreamArn.",
             "Value": {
                 "Fn::GetAtt": [
-                    "TodoTable",
+                    "ImageTable",
                     "StreamArn"
                 ]
             },
@@ -723,18 +942,18 @@
                                 "Ref": "AppSyncApiId"
                             },
                             "GetAtt",
-                            "TodoTable",
+                            "ImageTable",
                             "StreamArn"
                         ]
                     ]
                 }
             }
         },
-        "GetAttTodoDataSourceName": {
+        "GetAttImageDataSourceName": {
             "Description": "Your model DataSource name.",
             "Value": {
                 "Fn::GetAtt": [
-                    "TodoDataSource",
+                    "ImageDataSource",
                     "Name"
                 ]
             },
@@ -747,17 +966,17 @@
                                 "Ref": "AppSyncApiId"
                             },
                             "GetAtt",
-                            "TodoDataSource",
+                            "ImageDataSource",
                             "Name"
                         ]
                     ]
                 }
             }
         },
-        "GetAttTodoTableName": {
+        "GetAttImageTableName": {
             "Description": "Your DynamoDB table name.",
             "Value": {
-                "Ref": "TodoTable"
+                "Ref": "ImageTable"
             },
             "Export": {
                 "Name": {
@@ -768,7 +987,7 @@
                                 "Ref": "AppSyncApiId"
                             },
                             "GetAtt",
-                            "TodoTable",
+                            "ImageTable",
                             "Name"
                         ]
                     ]

@@ -15,6 +15,21 @@ export const auth = {
             commit("setUser", null);
             return await Auth.signOut();
         },
+
+        async signInWithGoogle({ commit }) {
+            try {
+                await Auth.federatedSignIn({provider: 'Google'});
+
+                const userInfo = await Auth.currentUserInfo();
+                commit("setUser", userInfo);
+
+                return Promise.resolve(userInfo);
+            } catch (error) {
+                console.log(error);
+                return Promise.reject(error);
+            }
+        },
+
         async login({ commit }, { username, password }) {
             try {
                 await Auth.signIn({
@@ -24,8 +39,7 @@ export const auth = {
 
                 const userInfo = await Auth.currentUserInfo();
                 commit("setUser", userInfo);
-                return Promise.resolve("Success");
-
+                return Promise.resolve(userInfo);
 
             } catch (error) {
                 console.log(error);

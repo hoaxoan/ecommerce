@@ -1,13 +1,50 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const getUser = /* GraphQL */ `
+  query GetUser($id: ID!) {
+    getUser(id: $id) {
+      id
+      ownerId
+      owner
+      username
+      name
+      email
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listUsers = /* GraphQL */ `
+  query ListUsers(
+    $filter: ModelUserFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        ownerId
+        owner
+        username
+        name
+        email
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
 export const getShop = /* GraphQL */ `
   query GetShop($id: ID!) {
     getShop(id: $id) {
       id
       name
+      userId
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -21,8 +58,10 @@ export const listShops = /* GraphQL */ `
       items {
         id
         name
+        userId
         createdAt
         updatedAt
+        owner
       }
       nextToken
     }
@@ -38,6 +77,7 @@ export const getCategory = /* GraphQL */ `
       }
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -53,6 +93,7 @@ export const listCategorys = /* GraphQL */ `
         name
         createdAt
         updatedAt
+        owner
       }
       nextToken
     }
@@ -69,12 +110,14 @@ export const getProduct = /* GraphQL */ `
         name
         createdAt
         updatedAt
+        owner
       }
       photos {
         nextToken
       }
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -91,6 +134,7 @@ export const listProducts = /* GraphQL */ `
         price
         createdAt
         updatedAt
+        owner
       }
       nextToken
     }
@@ -120,9 +164,11 @@ export const getImage = /* GraphQL */ `
         price
         createdAt
         updatedAt
+        owner
       }
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -141,6 +187,7 @@ export const listImages = /* GraphQL */ `
         size
         createdAt
         updatedAt
+        owner
       }
       nextToken
     }

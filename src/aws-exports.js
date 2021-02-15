@@ -7,12 +7,26 @@ const awsmobile = {
     "aws_cognito_region": "us-east-2",
     "aws_user_pools_id": "us-east-2_KB3NAVwOd",
     "aws_user_pools_web_client_id": "na8uuppabb7lvf8sjiiqj2u55",
-    "oauth": {},
-    "aws_appsync_graphqlEndpoint": "http://172.23.112.1:20002/graphql",
+    "oauth": {
+        "domain": "ecommerceauth-dev.auth.us-east-2.amazoncognito.com",
+        "scope": [
+            "phone",
+            "email",
+            "openid",
+            "profile",
+            "aws.cognito.signin.user.admin"
+        ],
+        "redirectSignIn": "http://localhost:8080/",
+        "redirectSignOut": "http://localhost:8080/",
+        "responseType": "code"
+    },
+    "federationTarget": "COGNITO_USER_POOLS",
+    "aws_user_files_s3_bucket": "ecommerce537e1cf3046b437e855f2f3427a71ebc84455-dev",
+    "aws_user_files_s3_bucket_region": "us-east-2",
+    "aws_appsync_graphqlEndpoint": "https://4eemxtmyazf6jexi73qrzrigpu.appsync-api.us-east-2.amazonaws.com/graphql",
     "aws_appsync_region": "us-east-2",
     "aws_appsync_authenticationType": "AMAZON_COGNITO_USER_POOLS",
-    "aws_appsync_apiKey": "da2-fakeApiId123456",
-    "aws_appsync_dangerously_connect_to_http_endpoint_for_testing": true
+    "aws_appsync_apiKey": "da2-fakeApiId123456"
 };
 
 
