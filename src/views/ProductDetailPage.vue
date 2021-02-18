@@ -1,5 +1,5 @@
 <template>
-  <section class="app-ecommerce-details">
+  <section class="app-ecommerce-details m-2">
 
     <!-- Content -->
     <b-card

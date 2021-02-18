@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="content-wrapper clearfix m-2">
         <!-- Table Container Card -->
         <b-card
         no-body
@@ -15,109 +15,116 @@
                 md="12"
             >
                 <div class="d-flex align-items-end justify-content-end">
-                <b-button
+                <!-- <b-button
                     v-b-modal.modal-center
                     variant="primary"
                     @click="isAddNewUserSidebarActive = true"
                 >
                     <span class="text-nowrap">Add Product</span>
-                </b-button>
+                </b-button> -->
+                <router-link to="/add-product">
+                  <b-button type="submit" variant="primary">Add Product</b-button>
+                </router-link>
                 </div>
             </b-col>
             </b-row>
 
         </div>
 
-        <b-table
-            ref="refUserListTable"
-            class="position-relative"
-            :items="users"
-            responsive
-            :fields="tableColumns"
-            primary-key="id"
-            show-empty
-            empty-text="No matching records found"
-        >
+        <!-- Table -->
+        <div class="m-2">
+            <b-table
+                ref="refUserListTable"
+                class="position-relative"
+                :items="users"
+                responsive
+                :fields="tableColumns"
+                primary-key="id"
+                show-empty
+                empty-text="No matching records found"
+            >
 
-            <!-- Column: User -->
-            <template #cell(user)="data">
-            <b-media vertical-align="center">
-                <template #aside>
-                <b-avatar
-                    size="32"
-                    :src="data.item.avatar"
-                    :text="avatarText(data.item.fullName)"
-                    :variant="`light-${resolveUserRoleVariant(data.item.role)}`"
+                <!-- Column: User -->
+                <template #cell(user)="data">
+                <b-media vertical-align="center">
+                    <template #aside>
+                    <b-avatar
+                        size="32"
+                        :src="data.item.avatar"
+                        :text="avatarText(data.item.fullName)"
+                        :variant="`light-${resolveUserRoleVariant(data.item.role)}`"
+                        :to="{ name: 'apps-users-view', params: { id: data.item.id } }"
+                    />
+                    </template>
+                    <b-link
                     :to="{ name: 'apps-users-view', params: { id: data.item.id } }"
-                />
+                    class="font-weight-bold d-block text-nowrap"
+                    >
+                    {{ data.item.fullName }}
+                    </b-link>
+                    <small class="text-muted">@{{ data.item.username }}</small>
+                </b-media>
                 </template>
-                <b-link
-                :to="{ name: 'apps-users-view', params: { id: data.item.id } }"
-                class="font-weight-bold d-block text-nowrap"
+
+                <!-- Column: Role -->
+                <template #cell(role)="data">
+                <div class="text-nowrap">
+                    <feather-icon
+                    :icon="resolveUserRoleIcon(data.item.role)"
+                    size="18"
+                    class="mr-50"
+                    :class="`text-${resolveUserRoleVariant(data.item.role)}`"
+                    />
+                    <span class="align-text-top text-capitalize">{{ data.item.role }}</span>
+                </div>
+                </template>
+
+                <!-- Column: Status -->
+                <template #cell(status)="data">
+                <b-badge
+                    pill
+                    :variant="`light-${resolveUserStatusVariant(data.item.status)}`"
+                    class="text-capitalize"
                 >
-                {{ data.item.fullName }}
-                </b-link>
-                <small class="text-muted">@{{ data.item.username }}</small>
-            </b-media>
-            </template>
-
-            <!-- Column: Role -->
-            <template #cell(role)="data">
-            <div class="text-nowrap">
-                <feather-icon
-                :icon="resolveUserRoleIcon(data.item.role)"
-                size="18"
-                class="mr-50"
-                :class="`text-${resolveUserRoleVariant(data.item.role)}`"
-                />
-                <span class="align-text-top text-capitalize">{{ data.item.role }}</span>
-            </div>
-            </template>
-
-            <!-- Column: Status -->
-            <template #cell(status)="data">
-            <b-badge
-                pill
-                :variant="`light-${resolveUserStatusVariant(data.item.status)}`"
-                class="text-capitalize"
-            >
-                {{ data.item.status }}
-            </b-badge>
-            </template>
-
-            <!-- Column: Actions -->
-            <template #cell(actions)="data">
-            <b-dropdown
-                variant="link"
-                no-caret
-                :right="$store.state.appConfig.isRTL"
-            >
-
-                <template #button-content>
-                <feather-icon
-                    icon="MoreVerticalIcon"
-                    size="16"
-                    class="align-middle text-body"
-                />
+                    {{ data.item.status }}
+                </b-badge>
                 </template>
-                <b-dropdown-item :to="{ name: 'apps-users-view', params: { id: data.item.id } }">
-                <feather-icon icon="FileTextIcon" />
-                <span class="align-middle ml-50">Details</span>
-                </b-dropdown-item>
 
-                <b-dropdown-item :to="{ name: 'apps-users-edit', params: { id: data.item.id } }">
-                <feather-icon icon="EditIcon" />
-                <span class="align-middle ml-50">Edit</span>
-                </b-dropdown-item>
+                <!-- Column: Actions -->
+                <template #cell(actions)="data">
+                <b-dropdown
+                    variant="link"
+                    no-caret
+                    :right="$store.state.appConfig.isRTL"
+                >
 
-                <b-dropdown-item>
-                <feather-icon icon="TrashIcon" />
-                <span class="align-middle ml-50">Delete</span>
-                </b-dropdown-item>
-            </b-dropdown>
-            </template>
+                    <template #button-content>
+                    <feather-icon
+                        icon="MoreVerticalIcon"
+                        size="16"
+                        class="align-middle text-body"
+                    />
+                    </template>
+                    <b-dropdown-item :to="{ name: 'apps-users-view', params: { id: data.item.id } }">
+                    <feather-icon icon="FileTextIcon" />
+                    <span class="align-middle ml-50">Details</span>
+                    </b-dropdown-item>
 
-        </b-table>
+                    <b-dropdown-item :to="{ name: 'apps-users-edit', params: { id: data.item.id } }">
+                    <feather-icon icon="EditIcon" />
+                    <span class="align-middle ml-50">Edit</span>
+                    </b-dropdown-item>
+
+                    <b-dropdown-item>
+                    <feather-icon icon="TrashIcon" />
+                    <span class="align-middle ml-50">Delete</span>
+                    </b-dropdown-item>
+                </b-dropdown>
+                </template>
+
+            </b-table>
+        </div>
+        
         <div class="mx-2 mb-2">
             <b-row>
             <!-- Pagination -->

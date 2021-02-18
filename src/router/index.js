@@ -3,7 +3,7 @@ import VueRouter from 'vue-router'
 import HomePage from '../views/HomePage.vue'
 import LoginPage from '../views/LoginPage.vue';
 import SignUpPage from '../views/SignUpPage.vue';
-import RegisterPage from '../views/RegisterPage.vue';
+import RegisterShopPage from '../views/RegisterShopPage.vue';
 import ProductListPage from '../views/ProductListPage.vue';
 import ProductDetailPage from '../views/ProductDetailPage.vue';
 import DashboardPage from '../views/DashboardPage.vue';
@@ -20,9 +20,9 @@ const routes = [
     component: HomePage
   },
   {
-    path: '/register',
-    name: 'RegisterPage',
-    component: RegisterPage
+    path: '/register-shop',
+    name: 'RegisterShopPage',
+    component: RegisterShopPage
   },
   {
     path: '/product-list',
@@ -35,7 +35,7 @@ const routes = [
     component: ProductDetailPage
   },
   {
-    path: '/product-magage',
+    path: '/product-manage',
     name: 'ProductManagePage',
     component: ProductManagePage
   },

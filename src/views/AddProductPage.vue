@@ -1,78 +1,86 @@
 <template>
-  <div class="content-wrapper">
-      <b-form @submit.prevent>
-        <b-row>
-          <b-col cols="12">
-            <b-form-group
-              label="Product Name"
-              label-for="h-product-name"
-              label-cols-md="4"
-            >
-              <b-form-input
-                id="h-product-name"
-                placeholder="Product Name"
-              />
-            </b-form-group>
-          </b-col>
-          <b-col cols="12">
-            <b-form-group
-              label="Price"
-              label-for="h-Price"
-              label-cols-md="4"
-            >
-              <b-form-input
-                id="h-price"
-                type="number"
-                placeholder="Price"
-              />
-            </b-form-group>
-          </b-col>
-          <b-col cols="12">
-            <b-form-group
-              label="Category"
-              label-for="h-category"
-              label-cols-md="4"
-            >
-              <b-form-select
-                id="h-category"
-                v-model="selected"
-                :options="categories"
-              />
-            </b-form-group>
-          </b-col>
-          <b-col cols="12">
-            <b-form-group
-              label="Image"
-              label-for="h-image"
-              label-cols-md="4"
-            >
-              <b-form-file
-                id="h-image"
-                accept=".jpg, .png, .gif"
-              />
-            </b-form-group>
-          </b-col>
+<div class="content-wrapper clearfix m-2">
+      <b-card no-body class="mb-0">
 
-          <!-- submit and reset -->
-          <b-col offset-md="4">
-            <b-button
-              type="submit"
-              variant="primary"
-              class="mr-1"
-            >
-              Save
-            </b-button>
-            <b-button
-              type="reset"
-              variant="outline-secondary"
-            >
-              Cancel
-            </b-button>
-          </b-col>
-        </b-row>
+      <div class="content-wrapper p-4">
+        <b-form @submit.prevent>
+          <b-row>
+            <b-col cols="12">
+              <b-form-group
+                label="Product Name"
+                label-for="h-product-name"
+                label-cols-md="4"
+              >
+                <b-form-input
+                  id="h-product-name"
+                  placeholder="Product Name"
+                />
+              </b-form-group>
+            </b-col>
+            <b-col cols="12">
+              <b-form-group
+                label="Price"
+                label-for="h-Price"
+                label-cols-md="4"
+              >
+                <b-form-input
+                  id="h-price"
+                  type="number"
+                  placeholder="Price"
+                />
+              </b-form-group>
+            </b-col>
+            <b-col cols="12">
+              <b-form-group
+                label="Category"
+                label-for="h-category"
+                label-cols-md="4"
+              >
+                <b-form-select
+                  id="h-category"
+                  v-model="selected"
+                  :options="categories"
+                />
+              </b-form-group>
+            </b-col>
+            <b-col cols="12">
+              <b-form-group
+                label="Image"
+                label-for="h-image"
+                label-cols-md="4"
+              >
+                <b-form-file
+                  id="h-image"
+                  accept=".jpg, .png, .gif"
+                />
+              </b-form-group>
+            </b-col>
 
-      </b-form>
-  </div>
+            <!-- submit and reset -->
+            <b-col offset-md="4">
+              <b-button
+                type="submit"
+                variant="primary"
+                class="mr-1"
+              >
+                Save
+              </b-button>
+               <router-link to="/product-manage">
+                   <b-button
+                      type="reset"
+                      variant="outline-secondary"
+                    >
+                      Cancel
+                    </b-button>
+                </router-link>
+            </b-col>
+          </b-row>
+
+        </b-form>
+    </div>
+      </b-card>
+</div>
+  
   
 </template>
 

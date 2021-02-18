@@ -1,5 +1,5 @@
 <template>
-    <div class="content-wrapper clearfix ecommerce-application">
+    <div class="content-wrapper clearfix ecommerce-application m-2">
         <div class="content-detached content-right">
           <div class="content-wrapper">
             <div class="content-body">
