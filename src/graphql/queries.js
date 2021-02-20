@@ -112,7 +112,27 @@ export const getProduct = /* GraphQL */ `
         updatedAt
         owner
       }
-      photos {
+      images {
+        items {
+          id
+          fullsize {
+            region
+            bucket
+            key
+          }
+          thumbnail {
+            region
+            bucket
+            key
+          }
+          contentType
+          height
+          width
+          size
+          createdAt
+          updatedAt
+          owner
+        }
         nextToken
       }
       createdAt
@@ -132,6 +152,36 @@ export const listProducts = /* GraphQL */ `
         id
         name
         price
+        category {
+          id
+          name
+          createdAt
+          updatedAt
+          owner
+        }
+        images {
+          items {
+            id
+            fullsize {
+              region
+              bucket
+              key
+            }
+            thumbnail {
+              region
+              bucket
+              key
+            }
+            contentType
+            height
+            width
+            size
+            createdAt
+            updatedAt
+            owner
+          }
+          nextToken
+        }
         createdAt
         updatedAt
         owner
@@ -181,6 +231,16 @@ export const listImages = /* GraphQL */ `
     listImages(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
+        fullsize {
+          region
+          bucket
+          key
+        }
+        thumbnail {
+          region
+          bucket
+          key
+        }
         contentType
         height
         width

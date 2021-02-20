@@ -134,7 +134,7 @@ export const onCreateProduct = /* GraphQL */ `
         updatedAt
         owner
       }
-      photos {
+      images {
         nextToken
       }
       createdAt
@@ -156,7 +156,7 @@ export const onUpdateProduct = /* GraphQL */ `
         updatedAt
         owner
       }
-      photos {
+      images {
         nextToken
       }
       createdAt
@@ -178,7 +178,7 @@ export const onDeleteProduct = /* GraphQL */ `
         updatedAt
         owner
       }
-      photos {
+      images {
         nextToken
       }
       createdAt

@@ -32,7 +32,7 @@ type Product {
   name: String!
   price: Int
   category: Category
-  photos(createdAt: ModelStringKeyConditionInput, filter: ModelImageFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelImageConnection
+  images(createdAt: ModelStringKeyConditionInput, filter: ModelImageFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelImageConnection
   createdAt: String
   updatedAt: String
   owner: String

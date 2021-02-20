@@ -40,7 +40,7 @@ const routes = [
     component: ProductManagePage
   },
   {
-    path: '/add-product',
+    path: '/add-product/:id',
     name: 'AddProductPage',
     component: AddProductPage
   },

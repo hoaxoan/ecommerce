@@ -2,7 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import Amplify from 'aws-amplify';
+import Amplify, { Auth, Storage } from 'aws-amplify';
 import '@aws-amplify/ui-vue';
 import aws_exports from './aws-exports';
 import { BootstrapVue, ToastPlugin, ModalPlugin } from 'bootstrap-vue'
@@ -58,10 +58,22 @@ const updatedAwsConfig = {
     ...aws_exports.oauth,
     redirectSignIn: isLocalhost ? localRedirectSignIn : productionRedirectSignIn,
     redirectSignOut: isLocalhost ? localRedirectSignOut : productionRedirectSignOut,
+  },
+  Analytics: { 
+    disabled: true
+  },
+  Storage: {
+    AWSS3: {
+        bucket: 'ecommerce537e1cf3046b437e855f2f3427a71ebc84455-dev', // Amazon S3 bucket name
+        region: 'us-east-2', // Amazon service region
+    }
   }
 }
 
 Amplify.configure(updatedAwsConfig);
+Auth.configure(updatedAwsConfig);
+Storage.configure(updatedAwsConfig)
+
 //Amplify.configure(aws_exports);
 
 

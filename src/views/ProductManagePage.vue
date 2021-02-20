@@ -15,16 +15,7 @@
                 md="12"
             >
                 <div class="d-flex align-items-end justify-content-end">
-                <!-- <b-button
-                    v-b-modal.modal-center
-                    variant="primary"
-                    @click="isAddNewUserSidebarActive = true"
-                >
-                    <span class="text-nowrap">Add Product</span>
-                </b-button> -->
-                <router-link to="/add-product">
-                  <b-button type="submit" variant="primary">Add Product</b-button>
-                </router-link>
+                    <b-button type="submit" variant="primary" @click.stop.prevent="openAddProduct(null)">Add Product</b-button>
                 </div>
             </b-col>
             </b-row>
@@ -36,7 +27,7 @@
             <b-table
                 ref="refUserListTable"
                 class="position-relative"
-                :items="users"
+                :items="products"
                 responsive
                 :fields="tableColumns"
                 primary-key="id"
@@ -44,82 +35,31 @@
                 empty-text="No matching records found"
             >
 
-                <!-- Column: User -->
-                <template #cell(user)="data">
-                <b-media vertical-align="center">
-                    <template #aside>
-                    <b-avatar
-                        size="32"
-                        :src="data.item.avatar"
-                        :text="avatarText(data.item.fullName)"
-                        :variant="`light-${resolveUserRoleVariant(data.item.role)}`"
-                        :to="{ name: 'apps-users-view', params: { id: data.item.id } }"
-                    />
-                    </template>
-                    <b-link
-                    :to="{ name: 'apps-users-view', params: { id: data.item.id } }"
-                    class="font-weight-bold d-block text-nowrap"
-                    >
-                    {{ data.item.fullName }}
-                    </b-link>
-                    <small class="text-muted">@{{ data.item.username }}</small>
-                </b-media>
+                <!-- Column: Image -->
+                <template #cell(image)="data">
+                    <b-media vertical-align="center">
+                        <template #aside>
+                        <b-avatar rounded
+                            size="32"
+                            :src="data.item.imageUrl"
+                        />
+                        </template>
+                    </b-media>
                 </template>
 
-                <!-- Column: Role -->
-                <template #cell(role)="data">
-                <div class="text-nowrap">
-                    <feather-icon
-                    :icon="resolveUserRoleIcon(data.item.role)"
-                    size="18"
-                    class="mr-50"
-                    :class="`text-${resolveUserRoleVariant(data.item.role)}`"
-                    />
-                    <span class="align-text-top text-capitalize">{{ data.item.role }}</span>
-                </div>
+                <!-- Column: category -->
+                <template #cell(category)="data">
+                    {{ data.item.category != null ? data.item.category.name : "" }}
                 </template>
 
-                <!-- Column: Status -->
-                <template #cell(status)="data">
-                <b-badge
-                    pill
-                    :variant="`light-${resolveUserStatusVariant(data.item.status)}`"
-                    class="text-capitalize"
+                <!-- Column: Action -->
+                <template
+                  #cell(actions)="data"
+                  class="text-center"
                 >
-                    {{ data.item.status }}
-                </b-badge>
-                </template>
-
-                <!-- Column: Actions -->
-                <template #cell(actions)="data">
-                <b-dropdown
-                    variant="link"
-                    no-caret
-                    :right="$store.state.appConfig.isRTL"
-                >
-
-                    <template #button-content>
-                    <feather-icon
-                        icon="MoreVerticalIcon"
-                        size="16"
-                        class="align-middle text-body"
-                    />
-                    </template>
-                    <b-dropdown-item :to="{ name: 'apps-users-view', params: { id: data.item.id } }">
-                    <feather-icon icon="FileTextIcon" />
-                    <span class="align-middle ml-50">Details</span>
-                    </b-dropdown-item>
-
-                    <b-dropdown-item :to="{ name: 'apps-users-edit', params: { id: data.item.id } }">
-                    <feather-icon icon="EditIcon" />
-                    <span class="align-middle ml-50">Edit</span>
-                    </b-dropdown-item>
-
-                    <b-dropdown-item>
-                    <feather-icon icon="TrashIcon" />
-                    <span class="align-middle ml-50">Delete</span>
-                    </b-dropdown-item>
-                </b-dropdown>
+                  <div class="text-center">
+                    <feather-icon icon="EditIcon"  @click.stop.prevent="openAddProduct(data.item)" />
+                  </div>
                 </template>
 
             </b-table>
@@ -136,7 +76,7 @@
 
                 <b-pagination
                 v-model="currentPage"
-                :total-rows="totalUsers"
+                :total-rows="totalRecords"
                 :per-page="perPage"
                 first-number
                 last-number
@@ -162,78 +102,59 @@
 
             </b-row>
         </div>
-        </b-card>
-
-        <!-- modal vertical center -->
-        <b-modal
-            id="modal-center"
-            centered
-            title="Vertically Centered"
-            ok-only
-            ok-title="Accept"
-        >
-            <b-card-text>
-                Croissant jelly-o halvah chocolate sesame snaps.
-                Brownie caramels candy canes chocolate cake marshmallow icing lollipop I love.
-                Gummies macaroon donut caramels biscuit topping danish.
-            </b-card-text>
-        </b-modal>
+        </b-card>        
     </div>
 </template>
 
 <script>
-import { BModal, VBModal, BCard, BRow, BCol, BTable, BMedia, BAvatar, BLink,
-BBadge, BDropdown, BDropdownItem, BPagination, } from 'bootstrap-vue'
-import { ref } from '@vue/composition-api'
+import { BCard, BRow, BCol, BTable, BMedia, BAvatar, BPagination, } from 'bootstrap-vue'
 
 export default {
-  name: "ProductManagePage",
-  directives: {
-    'b-modal': VBModal
-  },
+  name: "ProductManagePage", 
   components: {
-    BModal,
     BCard,
     BRow,
     BCol,
     BTable,
     BMedia,
     BAvatar,
-    BLink,
-    BBadge,
-    BDropdown,
-    BDropdownItem,
     BPagination,
   },
-  setup() {
-    var users = [];
+  data: () => ({
+    products: [],
+    perPage: 10,
+    sortBy: 'id',
+    totalRecords: 0,
+    currentPage: 1,
+    tableColumns: []
+  }),
+
+  async mounted() {
     // Table Handlers
-    const tableColumns = [
-        { key: 'user', sortable: true },
-        { key: 'email', sortable: true },
-        { key: 'role', sortable: true },
-        {
-        key: 'currentPlan',
-        label: 'Plan',
-        sortable: true,
-        },
-        { key: 'status', sortable: true },
+    this.tableColumns = [
+        { key: 'image', label: 'Image' },
+        { key: 'name', label: 'Product Name', sortable: true },
+        { key: 'category', label: 'Category', sortable: true },
+        { key: 'price', label: 'Price', sortable: true },
         { key: 'actions' },
     ];
-    const perPage = ref(10);
-    const sortBy = ref('id');
-    const totalUsers = ref(0)
-    const currentPage = ref(1)
+   
 
-    return {
+    this.products = await this.$store.dispatch("products/getProducts");
+    this.totalRecords = this.products.length;
+    console.log(JSON.stringify(this.products));
 
-      users,
-      tableColumns,
-      perPage,
-      currentPage,
-      totalUsers,
-      sortBy,
-    }
+  },
+  methods: {
+    openAddProduct(product) {
+        console.log(JSON.stringify(product));
+
+        if (product == null) {
+            this.$router.push(`/add-product/-1`);
+        } else {
+            this.$router.push(`/add-product/${product.id}`);
+        }
+    },
   }
 };
 </script>

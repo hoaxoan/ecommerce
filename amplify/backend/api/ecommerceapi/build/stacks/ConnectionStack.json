@@ -232,7 +232,7 @@
                 }
             }
         },
-        "ProductphotosResolver": {
+        "ProductimagesResolver": {
             "Type": "AWS::AppSync::Resolver",
             "Properties": {
                 "ApiId": {
@@ -253,7 +253,7 @@
                         ]
                     }
                 },
-                "FieldName": "photos",
+                "FieldName": "images",
                 "TypeName": "Product",
                 "RequestMappingTemplateS3Location": {
                     "Fn::Sub": [
@@ -270,7 +270,7 @@
                                     ".",
                                     [
                                         "Product",
-                                        "photos",
+                                        "images",
                                         "req",
                                         "vtl"
                                     ]
@@ -294,7 +294,7 @@
                                     ".",
                                     [
                                         "Product",
-                                        "photos",
+                                        "images",
                                         "res",
                                         "vtl"
                                     ]

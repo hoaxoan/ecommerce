@@ -40,7 +40,7 @@ type Product
   name: String!
   price: Int
   category: Category @connection(name: "ProductCategories", sortField: "createdAt")
-  photos: [Image] @connection(name: "ProductImages", sortField: "createdAt")
+  images: [Image] @connection(name: "ProductImages", sortField: "createdAt")
   createdAt: String
   updatedAt: String
 }
