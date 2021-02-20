@@ -121,7 +121,7 @@ export const products = {
                 return product;
 
             } catch (error) {
-                console.log("deleteProduct", error);
+                console.log("getProduct", error);
                 return null;
             }
         },

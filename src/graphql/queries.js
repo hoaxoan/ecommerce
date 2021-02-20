@@ -36,6 +36,20 @@ export const listUsers = /* GraphQL */ `
     }
   }
 `;
+export const countUsers = /* GraphQL */ `
+  query CountUsers(
+    $filter: ModelUserFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+      }
+      nextToken
+    }
+  }
+`;
 export const getShop = /* GraphQL */ `
   query GetShop($id: ID!) {
     getShop(id: $id) {
@@ -62,6 +76,20 @@ export const listShops = /* GraphQL */ `
         createdAt
         updatedAt
         owner
+      }
+      nextToken
+    }
+  }
+`;
+export const countShops = /* GraphQL */ `
+  query CountShops(
+    $filter: ModelShopFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listShops(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
       }
       nextToken
     }

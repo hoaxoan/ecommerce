@@ -106,7 +106,7 @@
       <!-- Shop Owners -->
       <template #title>
         <feather-icon icon="ToolIcon" />
-        <span>Shop Owners</span>
+        <span>Shops</span>
       </template>
 
 <!-- Table Shop Owners Container Card -->
@@ -119,9 +119,9 @@
           <b-table
               ref="refUserListTable"
               class="position-relative"
-              :items="products.items"
+              :items="shops.items"
               responsive
-              :fields="productsColumns"
+              :fields="shopsColumns"
               primary-key="id"
               show-empty
               empty-text="No matching records found"
@@ -168,7 +168,7 @@
 
                   <b-pagination
                   v-model="currentPage"
-                  :total-rows="products.totalRecords"
+                  :total-rows="shops.totalRecords"
                   :per-page="perPage"
                   @change="pageChange"
                   first-number
@@ -206,7 +206,7 @@
       </template>
 
      
-<!-- Table Users Container Card -->
+    <!-- Table Users Container Card -->
     <b-card
       no-body
       class="mb-0"
@@ -216,9 +216,9 @@
           <b-table
               ref="refUserListTable"
               class="position-relative"
-              :items="products.items"
+              :items="users.items"
               responsive
-              :fields="productsColumns"
+              :fields="usersColumns"
               primary-key="id"
               show-empty
               empty-text="No matching records found"
@@ -265,7 +265,7 @@
 
                   <b-pagination
                   v-model="currentPage"
-                  :total-rows="products.totalRecords"
+                  :total-rows="users.totalRecords"
                   :per-page="perPage"
                   @change="pageChange"
                   first-number
@@ -330,13 +330,13 @@ export default {
     },   
     productsColumns: [],
 
-    // ShopOwners
-    shopOwners: {
+    // Shops
+    shops: {
         items: [],
         nextToken: null,
         totalRecords: 0
     }, 
-    shopOwnersColumns: [],
+    shopsColumns: [],
 
     // Users
     users: {
@@ -361,25 +361,30 @@ export default {
         { key: 'name', label: 'Product Name', sortable: true },
         { key: 'category', label: 'Category', sortable: true },
         { key: 'price', label: 'Price', sortable: true },
-        { key: 'actions' },
+        { key: 'actions', label: 'Actions' },
     ];
 
-    this.shopOwnersColumns = [
-        { key: 'Shop Name', sortable: true},
-        { key: 'User Name', sortable: true},
-        { key: 'Total Products'},
-        { key: 'Status' },
-        { key: 'Action' },
+    this.shopsColumns = [
+        { key: 'name', label: 'Shop Name', sortable: true},
+        { key: 'username', label: 'User Name', sortable: true},
+        { key: 'totalProducts', label: 'Total Products'},
+        { key: 'actions', label: 'Action' },
     ];
 
     this.usersColumns = [
-        { key: 'User Name' },
-        { key: 'Email', sortable: true },
-        { key: 'Status' },
-        { key: 'Action' },
+        { key: 'username', label: 'User Name' },
+        { key: 'email', label: 'Email', sortable: true },
+        { key: 'actions', label: 'Action' },
     ];
 
+    // get products
     this.getProducts();
+
+    // get shops
+    this.getShops();
+
+    // get user
+    this.getUsers();
   },
   methods: {
     async getProducts() {
@@ -393,10 +398,44 @@ export default {
 
         this.products = await this.$store.dispatch("products/getProductsPagination", variables);
 
-        this.previousTokens.push(this.nextToken);
-        this.nextNextToken = this.products.nextToken;
+        // this.previousTokens.push(this.nextToken);
+        // this.nextNextToken = this.products.nextToken;
         console.log(this.products);
     },
+
+
+    async getShops() {
+        const variables = {
+            limit: this.perPage,
+            sortDirection: this.sortDirection,
+        };
+
+        if (this.nextToken != null)
+            variables.nextToken = this.nextToken;
+
+        this.shops = await this.$store.dispatch("shops/getShopsPagination", variables);
+
+        // this.previousTokens.push(this.nextToken);
+        // this.nextNextToken = this.users.nextToken;
+        console.log(this.shops);
+    },
+
+    async getUsers() {
+        const variables = {
+            limit: this.perPage,
+            sortDirection: this.sortDirection,
+        };
+
+        if (this.nextToken != null)
+            variables.nextToken = this.nextToken;
+
+        this.users = await this.$store.dispatch("users/getUsersPagination", variables);
+
+        // this.previousTokens.push(this.nextToken);
+        // this.nextNextToken = this.users.nextToken;
+        console.log(this.users);
+    },
+
 
     pageChange(pageNum) {
         if (this.currentPage < pageNum) {
