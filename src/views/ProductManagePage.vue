@@ -27,7 +27,7 @@
             <b-table
                 ref="refUserListTable"
                 class="position-relative"
-                :items="products"
+                :items="products.items"
                 responsive
                 :fields="tableColumns"
                 primary-key="id"
@@ -76,8 +76,9 @@
 
                 <b-pagination
                 v-model="currentPage"
-                :total-rows="totalRecords"
+                :total-rows="products.totalRecords"
                 :per-page="perPage"
+                @change="pageChange"
                 first-number
                 last-number
                 class="mb-0 mt-1 mt-sm-0"
@@ -121,12 +122,18 @@ export default {
     BPagination,
   },
   data: () => ({
-    products: [],
-    perPage: 10,
-    sortBy: 'id',
-    totalRecords: 0,
+    products: {
+        items: [],
+        nextToken: null,
+        totalRecords: 0
+    },   
+    tableColumns: [],
     currentPage: 1,
-    tableColumns: []
+    nextToken: null,
+    nextNextToken: null,
+    previousTokens: [],
+    perPage: 10,
+    sortDirection: 'id',
   }),
 
   async mounted() {
@@ -138,22 +145,42 @@ export default {
         { key: 'price', label: 'Price', sortable: true },
         { key: 'actions' },
     ];
-   
 
-    this.products = await this.$store.dispatch("products/getProducts");
-    this.totalRecords = this.products.length;
-    console.log(JSON.stringify(this.products));
-
+    this.getProducts();
   },
   methods: {
     openAddProduct(product) {
-        console.log(JSON.stringify(product));
-
         if (product == null) {
             this.$router.push(`/add-product/-1`);
         } else {
             this.$router.push(`/add-product/${product.id}`);
         }
+    },
+
+    async getProducts() {
+        const variables = {
+            limit: this.perPage,
+            sortDirection: this.sortDirection,
+        };
+
+        if (this.nextToken != null)
+            variables.nextToken = this.nextToken;
+
+        this.products = await this.$store.dispatch("products/getProductsPagination", variables);
+
+        this.previousTokens.push(this.nextToken);
+        this.nextNextToken = this.products.nextToken;
+        console.log(this.products);
+    },
+
+    pageChange(pageNum) {
+        if (this.currentPage < pageNum) {
+            this.nextToken = this.nextNextToken;
+        } else {
+            this.nextToken = this.previousTokens.pop();
+        }
+        
+        this.getProducts();
     },
   }
 };

@@ -7,6 +7,26 @@
       no-body
     >
       <b-card-body>
+        <b-row>
+            <b-breadcrumb>
+              <b-breadcrumb-item to="/">
+                <feather-icon
+                  icon="HomeIcon"
+                  size="16"
+                  class="align-text-top"
+                />
+              </b-breadcrumb-item>
+              <b-breadcrumb-item
+                v-for="item in breadcrumbs"
+                :key="item.text"
+                :active="item.active"
+                :to="item.href"
+              >
+                {{ item.text }}
+              </b-breadcrumb-item>
+            </b-breadcrumb>
+            <!-- <b-breadcrumb :items="breadcrumbs"></b-breadcrumb> -->
+        </b-row>
         <b-row class="my-2">
 
           <!-- Left: Product Image Container -->
@@ -17,7 +37,7 @@
           >
             <div class="d-flex align-items-center justify-content-center">
               <b-img
-                :src="product.image"
+                :src="product.imageUrl"
                 :alt="`Image of ${product.name}`"
                 class="product-img"
                 fluid
@@ -159,10 +179,11 @@
 
 <script>
 import {
-  BCard, BCardBody, BRow, BCol, BImg, BCardText, BLink, BButton, BDropdown, BDropdownItem,
+  BCard, BCardBody, BRow, BCol, BImg, BCardText, BLink, BButton, BDropdown, BDropdownItem, BBreadcrumb, BBreadcrumbItem,
 } from 'bootstrap-vue'
 
 export default {
+  name: "product-detail",
   components: {
     // BSV
     BCard,
@@ -175,26 +196,46 @@ export default {
     BButton,
     BDropdown,
     BDropdownItem,
+    BBreadcrumb,
+    BBreadcrumbItem,
+
   },
-  setup() {
-    const product = {
-      id: 1,
-      name: 'VicTsing Wireless Mouse,',
-      slug: 'vic-tsing-wireless-mouse-1',
-      description:
-        'After thousands of samples of palm data, we designed this ergonomic mouse. The laptop mouse has a streamlined arc and thumb rest to help reduce the stress caused by prolonged use of the laptop mouse.',
-      brand: 'VicTsing',
-      price: 10.99,
-      image: require('@/assets/images/pages/eCommerce/27.png'),
-      hasFreeShipping: true,
-      rating: 3,
-    };
 
-    return {
+  data: () => ({
+    product: {
+      type: Object
+    },
+    breadcrumbs: [
+        {
+          text: 'Products',
+          href: '/product-list'
+        },
+        {
+          text: 'Product Detail',
+          active: true
+        }
+      ]
+  }),
 
-      // Fetched Product
-      product,
+  computed: {
+    id() {
+      return this.$route.params.id;
+    },
+  },
+
+  async mounted() {
+    // Get Product
+    this.getProduct();
+  },
+
+  methods: {
+    async getProduct() {
+      // Get Product by Id
+      const productData = await this.$store.dispatch("products/getProduct", this.id);
+      if (productData != null) {
+        this.product = productData;
+      } 
     }
-  },
+  }
 }
 </script>

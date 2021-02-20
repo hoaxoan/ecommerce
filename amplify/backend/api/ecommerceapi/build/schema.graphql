@@ -177,6 +177,7 @@ type Query {
   listCategorys(filter: ModelCategoryFilterInput, limit: Int, nextToken: String): ModelCategoryConnection
   getProduct(id: ID!): Product
   listProducts(filter: ModelProductFilterInput, limit: Int, nextToken: String): ModelProductConnection
+  countProducts(filter: ModelProductFilterInput, limit: Int, nextToken: String): ModelProductConnection
   getImage(id: ID!): Image
   listImages(filter: ModelImageFilterInput, limit: Int, nextToken: String): ModelImageConnection
 }

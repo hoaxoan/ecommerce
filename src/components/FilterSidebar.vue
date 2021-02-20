@@ -4,13 +4,13 @@
       <div
         class="sidebar-shop show"
       >
-        <b-row>
+        <!-- <b-row>
           <b-col cols="12">
             <h6 class="filter-heading d-none d-lg-block">
               Filters
             </h6>
           </b-col>
-        </b-row>
+        </b-row> -->
 
         <!-- Filters' Card -->
         <b-card>
@@ -21,10 +21,10 @@
               Categories
             </h6>
            <b-form-radio-group
-              v-model="filters.categories"
+              v-model="filters.categorySelecteds"
               class="categories-radio-group"
               stacked
-              :options="filterOptions.categories"
+              :options="filters.categories"
             />
           </div>
 
@@ -32,31 +32,21 @@
       </div>
     </div>
 
-    <div
-      class="body-content-overlay show"
-      @click="$emit('update:mq-shall-show-left-sidebar', false)"
-    />
   </div>
 </template>
 
 <script>
 import {
-  BRow, BCol, BCard, BFormRadioGroup,
+  BCard, BFormRadioGroup,
 } from 'bootstrap-vue'
 
 export default {
   components: {
-    BRow,
-    BCol,
     BCard,
     BFormRadioGroup,
   },
   props: {
     filters: {
-      type: Object,
-      required: true,
-    },
-    filterOptions: {
       type: Object,
       required: true,
     }

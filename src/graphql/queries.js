@@ -190,6 +190,20 @@ export const listProducts = /* GraphQL */ `
     }
   }
 `;
+export const countProducts = /* GraphQL */ `
+  query CountProducts(
+    $filter: ModelProductFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listProducts(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+      }
+      nextToken
+    }
+  }
+`;
 export const getImage = /* GraphQL */ `
   query GetImage($id: ID!) {
     getImage(id: $id) {

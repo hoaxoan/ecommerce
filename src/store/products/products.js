@@ -1,6 +1,7 @@
 import { API, graphqlOperation, Storage } from "aws-amplify";
 import { getProduct as getProductQuery } from '@/graphql/queries';
 import { listProducts as listProductsQuery } from '@/graphql/queries';
+import { countProducts as countProductsQuery } from '@/graphql/queries';
 import { createProduct as createProductMutation } from "@/graphql/mutations";
 import { updateProduct as updateProductMutation } from "@/graphql/mutations";
 import { deleteProduct as deleteProductMutation } from "@/graphql/mutations";
@@ -98,20 +99,26 @@ export const products = {
                     productData.data.getProduct == null)
                     return null;
 
+                const product = productData.data.getProduct;
                 // Images
-                if (productData.data.getProduct.images.items == null || 
-                    productData.data.getProduct.images.items.length == 0) {
+                if (product.images.items == null || 
+                    product.images.items.length == 0) {
                     const imagesData = await API.graphql(graphqlOperation(listImagesQuery, { imageProductId: id}));
 
                     const imageItems = await Promise.all(imagesData.data.listImages.items.map(async item => {
                         item.imageUrl = await Storage.get(item.fullsize.key);
                         return item
-                    }))
+                    }));
+
+                    if (imageItems.length > 0) {
+                        product.imageUrl = imageItems[0].imageUrl;
+                    }
         
-                    productData.data.getProduct.images.items = imageItems;
+                    product.images.items = imageItems;
                 }
 
-                return productData.data.getProduct;
+
+                return product;
 
             } catch (error) {
                 console.log("deleteProduct", error);
@@ -138,6 +145,57 @@ export const products = {
             return products;
         },
 
+        async getProductsPagination({ dispatch }, productFilter) {
+            const variables = {
+                filter: productFilter.filter,   
+                limit: productFilter.limit, 
+            };
+
+            if (productFilter.nextToken != null)
+                variables.nextToken = productFilter.nextToken; 
+
+            const productsData = await API.graphql({ 
+                query: listProductsQuery, 
+                variables: variables
+            });
+
+            const products = productsData.data.listProducts;
+
+            for (let i = 0; i < products.items.length; i++) {
+                const product = products.items[i];
+                // Image
+                if (product.imageUrl == null) {
+                    const imagesData = await API.graphql(graphqlOperation(listImagesQuery, { imageProductId: product.id}));
+                    if (imagesData.data.listImages.items != null &&
+                        imagesData.data.listImages.items.length > 0 &&
+                        imagesData.data.listImages.items[0].fullsize != null) {
+                        product.imageUrl = await Storage.get(imagesData.data.listImages.items[0].fullsize.key);
+                    }
+                }
+            }
+
+            // Total records
+            products.totalRecords =  await dispatch("countProducts", productFilter);
+
+            return products;
+        },
+
+        async countProducts(_, productFilter) {
+            const variables = {
+                filter: productFilter.filter    
+            };
+            const productsData = await API.graphql({ 
+                query: countProductsQuery, 
+                variables: variables
+            });
+
+            if (productsData.data.listProducts == null ||
+                productsData.data.listProducts.items == null)
+                return 0;
+
+            return productsData.data.listProducts.items.length;
+        },
+
         async getImagesByProductId(_, productId) {
             const imagesData = await API.graphql(graphqlOperation(listImagesQuery, { imageProductId: productId}));
 
@@ -158,8 +216,6 @@ export const products = {
                     imageProductId: data.imageProductId
                 };
                 
-                console.log(newImage);
-
                 const imageData = await API.graphql(graphqlOperation(getImageQuery, { id: newImage.id }))
                 if (imageData != null && imageData.id != null) {
                     const image = await API.graphql(graphqlOperation(updateImageMutation, { input: newImage }));
