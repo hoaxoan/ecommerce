@@ -67,39 +67,39 @@
         
         <div class="mx-2 mb-2">
             <b-row>
-            <!-- Pagination -->
-            <b-col
-                cols="12"
-                sm="6"
-                class="d-flex align-items-center justify-content-center justify-content-sm-end"
-            >
-
-                <b-pagination
-                v-model="currentPage"
-                :total-rows="products.totalRecords"
-                :per-page="perPage"
-                @change="pageChange"
-                first-number
-                last-number
-                class="mb-0 mt-1 mt-sm-0"
-                prev-class="prev-item"
-                next-class="next-item"
+                <!-- Pagination -->
+                <b-col
+                    cols="12"
+                    sm="6"
+                    class="d-flex align-items-center justify-content-center justify-content-sm-end"
                 >
-                <template #prev-text>
-                    <feather-icon
-                    icon="ChevronLeftIcon"
-                    size="18"
-                    />
-                </template>
-                <template #next-text>
-                    <feather-icon
-                    icon="ChevronRightIcon"
-                    size="18"
-                    />
-                </template>
-                </b-pagination>
 
-            </b-col>
+                    <b-pagination
+                    v-model="currentPage"
+                    :total-rows="products.totalRecords"
+                    :per-page="perPage"
+                    @change="pageChange"
+                    first-number
+                    last-number
+                    class="mb-0 mt-1 mt-sm-0"
+                    prev-class="prev-item"
+                    next-class="next-item"
+                    >
+                    <template #prev-text>
+                        <feather-icon
+                        icon="ChevronLeftIcon"
+                        size="18"
+                        />
+                    </template>
+                    <template #next-text>
+                        <feather-icon
+                        icon="ChevronRightIcon"
+                        size="18"
+                        />
+                    </template>
+                    </b-pagination>
+
+                </b-col>
 
             </b-row>
         </div>

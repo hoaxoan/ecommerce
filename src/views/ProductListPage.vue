@@ -108,9 +108,9 @@
                     <b-row>
                         <b-col cols="12">
                         <b-pagination
-                            v-model="filters.currentPage"
+                            v-model="currentPage"
                             :total-rows="products.totalRecords"
-                            :per-page="filters.perPage"
+                            :per-page="perPage"
                             first-number
                             align="center"
                             last-number
@@ -140,8 +140,33 @@
           </div>
         </div>
         <!-- Sidebar -->
-        <filter-sidebar :filters="filters"
-        />
+        <div class="sidebar-detached sidebar-left">
+          <div class="sidebar">
+            <div
+              class="sidebar-shop show"
+            >
+
+              <!-- Filters' Card -->
+              <b-card>
+
+                <!-- Categories -->
+                <div class="product-categories">
+                  <h6 class="filter-title">
+                    Categories
+                  </h6>
+                <b-form-radio-group
+                    v-model="categorySelecteds"
+                    class="categories-radio-group"
+                    stacked
+                    :options="categories"
+                  />
+                </div>
+
+              </b-card>
+            </div>
+          </div>
+
+        </div>
     </div>
 
 </template>
@@ -150,7 +175,6 @@
 import {
   BRow, BCol, BInputGroup, BInputGroupAppend, BFormInput, BCard, BCardBody, BLink, BImg, BCardText, BPagination,
 } from 'bootstrap-vue'
-import FilterSidebar from "@/components/FilterSidebar.vue";
 
 export default {
   name: "ProductListPage",
@@ -167,8 +191,6 @@ export default {
     BImg,
     BCardText,
     BPagination,
-        
-    FilterSidebar,
   },
   data: () => ({
     products: {
@@ -176,26 +198,28 @@ export default {
         nextToken: null,
         totalRecords: 0
     },
-    filters: {
-      q: "",
-      currentPage: 1,
-      perPage: 10,
-      categories: [],
-      categorySelecteds: []
-    },
-    searchText: ""
+    currentPage: 1,
+    perPage: 10,
+    categories: [],
+    searchText: "",
+    categorySelecteds: [],
+    sortDirection: "id",
   }),
 
   watch: {
     searchText: function (val) {
       console.log(val);
     },
+
+    categorySelecteds: function(val) {
+      console.log(val);
+    }
   },
 
   async mounted() {
     // Get Categories
     var categories = await this.$store.dispatch("categories/getCategories");
-    this.filters.categories = categories.map(category => {
+    this.categories = categories.map(category => {
       return {
         value: category.id,
         text: category.name
@@ -210,7 +234,7 @@ export default {
     
     async getProducts() {
         const variables = {
-            limit: this.limit,
+            limit: this.perPage,
             sortDirection: this.sortDirection,
         };
 

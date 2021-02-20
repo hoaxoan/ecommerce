@@ -19,132 +19,85 @@
       class="mb-0"
     >
 
-      <b-table
-        ref="refUserListTable"
-        class="position-relative"
-        :items="users"
-        responsive
-        :fields="productsColumns"
-        primary-key="id"
-        show-empty
-        empty-text="No matching records found"
-      >
-
-        <!-- Column: User -->
-        <template #cell(user)="data">
-          <b-media vertical-align="center">
-            <template #aside>
-              <b-avatar
-                size="32"
-                :src="data.item.avatar"
-                :text="avatarText(data.item.fullName)"
-                :variant="`light-${resolveUserRoleVariant(data.item.role)}`"
-                :to="{ name: 'apps-users-view', params: { id: data.item.id } }"
-              />
-            </template>
-            <b-link
-              :to="{ name: 'apps-users-view', params: { id: data.item.id } }"
-              class="font-weight-bold d-block text-nowrap"
-            >
-              {{ data.item.fullName }}
-            </b-link>
-            <small class="text-muted">@{{ data.item.username }}</small>
-          </b-media>
-        </template>
-
-        <!-- Column: Role -->
-        <template #cell(role)="data">
-          <div class="text-nowrap">
-            <feather-icon
-              :icon="resolveUserRoleIcon(data.item.role)"
-              size="18"
-              class="mr-50"
-              :class="`text-${resolveUserRoleVariant(data.item.role)}`"
-            />
-            <span class="align-text-top text-capitalize">{{ data.item.role }}</span>
-          </div>
-        </template>
-
-        <!-- Column: Status -->
-        <template #cell(status)="data">
-          <b-badge
-            pill
-            :variant="`light-${resolveUserStatusVariant(data.item.status)}`"
-            class="text-capitalize"
-          >
-            {{ data.item.status }}
-          </b-badge>
-        </template>
-
-        <!-- Column: Actions -->
-        <template #cell(actions)="data">
-          <b-dropdown
-            variant="link"
-            no-caret
-            :right="$store.state.appConfig.isRTL"
+      <div class="m-2">
+          <b-table
+              ref="refUserListTable"
+              class="position-relative"
+              :items="products.items"
+              responsive
+              :fields="productsColumns"
+              primary-key="id"
+              show-empty
+              empty-text="No matching records found"
           >
 
-            <template #button-content>
-              <feather-icon
-                icon="MoreVerticalIcon"
-                size="16"
-                class="align-middle text-body"
-              />
-            </template>
-            <b-dropdown-item :to="{ name: 'apps-users-view', params: { id: data.item.id } }">
-              <feather-icon icon="FileTextIcon" />
-              <span class="align-middle ml-50">Details</span>
-            </b-dropdown-item>
+              <!-- Column: Image -->
+              <template #cell(image)="data">
+                  <b-media vertical-align="center">
+                      <template #aside>
+                      <b-avatar rounded
+                          size="32"
+                          :src="data.item.imageUrl"
+                      />
+                      </template>
+                  </b-media>
+              </template>
 
-            <b-dropdown-item :to="{ name: 'apps-users-edit', params: { id: data.item.id } }">
-              <feather-icon icon="EditIcon" />
-              <span class="align-middle ml-50">Edit</span>
-            </b-dropdown-item>
+              <!-- Column: category -->
+              <template #cell(category)="data">
+                  {{ data.item.category != null ? data.item.category.name : "" }}
+              </template>
 
-            <b-dropdown-item>
-              <feather-icon icon="TrashIcon" />
-              <span class="align-middle ml-50">Delete</span>
-            </b-dropdown-item>
-          </b-dropdown>
-        </template>
+              <!-- Column: Action -->
+              <template
+                #cell(actions)="data"
+                class="text-center"
+              >
+                <div class="text-center">
+                  <feather-icon icon="EditIcon"  @click.stop.prevent="openAddProduct(data.item)" />
+                </div>
+              </template>
 
-      </b-table>
+          </b-table>
+      </div>
+
       <div class="mx-2 mb-2">
-        <b-row>
-          <!-- Pagination -->
-          <b-col
-            cols="12"
-            sm="6"
-            class="d-flex align-items-center justify-content-center justify-content-sm-end"
-          >
+          <b-row>
+              <!-- Pagination -->
+              <b-col
+                  cols="12"
+                  sm="6"
+                  class="d-flex align-items-center justify-content-center justify-content-sm-end"
+              >
 
-            <b-pagination
-              v-model="currentPage"
-              :total-rows="totalUsers"
-              :per-page="perPage"
-              first-number
-              last-number
-              class="mb-0 mt-1 mt-sm-0"
-              prev-class="prev-item"
-              next-class="next-item"
-            >
-              <template #prev-text>
-                <feather-icon
-                  icon="ChevronLeftIcon"
-                  size="18"
-                />
-              </template>
-              <template #next-text>
-                <feather-icon
-                  icon="ChevronRightIcon"
-                  size="18"
-                />
-              </template>
-            </b-pagination>
+                  <b-pagination
+                  v-model="currentPage"
+                  :total-rows="products.totalRecords"
+                  :per-page="perPage"
+                  @change="pageChange"
+                  first-number
+                  last-number
+                  class="mb-0 mt-1 mt-sm-0"
+                  prev-class="prev-item"
+                  next-class="next-item"
+                  >
+                  <template #prev-text>
+                      <feather-icon
+                      icon="ChevronLeftIcon"
+                      size="18"
+                      />
+                  </template>
+                  <template #next-text>
+                      <feather-icon
+                      icon="ChevronRightIcon"
+                      size="18"
+                      />
+                  </template>
+                  </b-pagination>
 
-          </b-col>
+              </b-col>
 
-        </b-row>
+          </b-row>
       </div>
     </b-card>
 
@@ -162,132 +115,85 @@
       class="mb-0"
     >
 
-      <b-table
-        ref="refUserListTable"
-        class="position-relative"
-        :items="users"
-        responsive
-        :fields="shopOwnersColumns"
-        primary-key="id"
-        show-empty
-        empty-text="No matching records found"
-      >
-
-        <!-- Column: User -->
-        <template #cell(user)="data">
-          <b-media vertical-align="center">
-            <template #aside>
-              <b-avatar
-                size="32"
-                :src="data.item.avatar"
-                :text="avatarText(data.item.fullName)"
-                :variant="`light-${resolveUserRoleVariant(data.item.role)}`"
-                :to="{ name: 'apps-users-view', params: { id: data.item.id } }"
-              />
-            </template>
-            <b-link
-              :to="{ name: 'apps-users-view', params: { id: data.item.id } }"
-              class="font-weight-bold d-block text-nowrap"
-            >
-              {{ data.item.fullName }}
-            </b-link>
-            <small class="text-muted">@{{ data.item.username }}</small>
-          </b-media>
-        </template>
-
-        <!-- Column: Role -->
-        <template #cell(role)="data">
-          <div class="text-nowrap">
-            <feather-icon
-              :icon="resolveUserRoleIcon(data.item.role)"
-              size="18"
-              class="mr-50"
-              :class="`text-${resolveUserRoleVariant(data.item.role)}`"
-            />
-            <span class="align-text-top text-capitalize">{{ data.item.role }}</span>
-          </div>
-        </template>
-
-        <!-- Column: Status -->
-        <template #cell(status)="data">
-          <b-badge
-            pill
-            :variant="`light-${resolveUserStatusVariant(data.item.status)}`"
-            class="text-capitalize"
-          >
-            {{ data.item.status }}
-          </b-badge>
-        </template>
-
-        <!-- Column: Actions -->
-        <template #cell(actions)="data">
-          <b-dropdown
-            variant="link"
-            no-caret
-            :right="$store.state.appConfig.isRTL"
+      <div class="m-2">
+          <b-table
+              ref="refUserListTable"
+              class="position-relative"
+              :items="products.items"
+              responsive
+              :fields="productsColumns"
+              primary-key="id"
+              show-empty
+              empty-text="No matching records found"
           >
 
-            <template #button-content>
-              <feather-icon
-                icon="MoreVerticalIcon"
-                size="16"
-                class="align-middle text-body"
-              />
-            </template>
-            <b-dropdown-item :to="{ name: 'apps-users-view', params: { id: data.item.id } }">
-              <feather-icon icon="FileTextIcon" />
-              <span class="align-middle ml-50">Details</span>
-            </b-dropdown-item>
+              <!-- Column: Image -->
+              <template #cell(image)="data">
+                  <b-media vertical-align="center">
+                      <template #aside>
+                      <b-avatar rounded
+                          size="32"
+                          :src="data.item.imageUrl"
+                      />
+                      </template>
+                  </b-media>
+              </template>
 
-            <b-dropdown-item :to="{ name: 'apps-users-edit', params: { id: data.item.id } }">
-              <feather-icon icon="EditIcon" />
-              <span class="align-middle ml-50">Edit</span>
-            </b-dropdown-item>
+              <!-- Column: category -->
+              <template #cell(category)="data">
+                  {{ data.item.category != null ? data.item.category.name : "" }}
+              </template>
 
-            <b-dropdown-item>
-              <feather-icon icon="TrashIcon" />
-              <span class="align-middle ml-50">Delete</span>
-            </b-dropdown-item>
-          </b-dropdown>
-        </template>
+              <!-- Column: Action -->
+              <template
+                #cell(actions)="data"
+                class="text-center"
+              >
+                <div class="text-center">
+                  <feather-icon icon="EditIcon"  @click.stop.prevent="openAddProduct(data.item)" />
+                </div>
+              </template>
 
-      </b-table>
+          </b-table>
+      </div>
+
       <div class="mx-2 mb-2">
-        <b-row>
-          <!-- Pagination -->
-          <b-col
-            cols="12"
-            sm="6"
-            class="d-flex align-items-center justify-content-center justify-content-sm-end"
-          >
+          <b-row>
+              <!-- Pagination -->
+              <b-col
+                  cols="12"
+                  sm="6"
+                  class="d-flex align-items-center justify-content-center justify-content-sm-end"
+              >
 
-            <b-pagination
-              v-model="currentPage"
-              :total-rows="totalUsers"
-              :per-page="perPage"
-              first-number
-              last-number
-              class="mb-0 mt-1 mt-sm-0"
-              prev-class="prev-item"
-              next-class="next-item"
-            >
-              <template #prev-text>
-                <feather-icon
-                  icon="ChevronLeftIcon"
-                  size="18"
-                />
-              </template>
-              <template #next-text>
-                <feather-icon
-                  icon="ChevronRightIcon"
-                  size="18"
-                />
-              </template>
-            </b-pagination>
+                  <b-pagination
+                  v-model="currentPage"
+                  :total-rows="products.totalRecords"
+                  :per-page="perPage"
+                  @change="pageChange"
+                  first-number
+                  last-number
+                  class="mb-0 mt-1 mt-sm-0"
+                  prev-class="prev-item"
+                  next-class="next-item"
+                  >
+                  <template #prev-text>
+                      <feather-icon
+                      icon="ChevronLeftIcon"
+                      size="18"
+                      />
+                  </template>
+                  <template #next-text>
+                      <feather-icon
+                      icon="ChevronRightIcon"
+                      size="18"
+                      />
+                  </template>
+                  </b-pagination>
 
-          </b-col>
+              </b-col>
 
-        </b-row>
+          </b-row>
       </div>
     </b-card>
 
@@ -306,132 +212,85 @@
       class="mb-0"
     >
 
-      <b-table
-        ref="refUserListTable"
-        class="position-relative"
-        :items="users"
-        responsive
-        :fields="usersColumns"
-        primary-key="id"
-        show-empty
-        empty-text="No matching records found"
-      >
-
-        <!-- Column: User -->
-        <template #cell(user)="data">
-          <b-media vertical-align="center">
-            <template #aside>
-              <b-avatar
-                size="32"
-                :src="data.item.avatar"
-                :text="avatarText(data.item.fullName)"
-                :variant="`light-${resolveUserRoleVariant(data.item.role)}`"
-                :to="{ name: 'apps-users-view', params: { id: data.item.id } }"
-              />
-            </template>
-            <b-link
-              :to="{ name: 'apps-users-view', params: { id: data.item.id } }"
-              class="font-weight-bold d-block text-nowrap"
-            >
-              {{ data.item.fullName }}
-            </b-link>
-            <small class="text-muted">@{{ data.item.username }}</small>
-          </b-media>
-        </template>
-
-        <!-- Column: Role -->
-        <template #cell(role)="data">
-          <div class="text-nowrap">
-            <feather-icon
-              :icon="resolveUserRoleIcon(data.item.role)"
-              size="18"
-              class="mr-50"
-              :class="`text-${resolveUserRoleVariant(data.item.role)}`"
-            />
-            <span class="align-text-top text-capitalize">{{ data.item.role }}</span>
-          </div>
-        </template>
-
-        <!-- Column: Status -->
-        <template #cell(status)="data">
-          <b-badge
-            pill
-            :variant="`light-${resolveUserStatusVariant(data.item.status)}`"
-            class="text-capitalize"
-          >
-            {{ data.item.status }}
-          </b-badge>
-        </template>
-
-        <!-- Column: Actions -->
-        <template #cell(actions)="data">
-          <b-dropdown
-            variant="link"
-            no-caret
-            :right="$store.state.appConfig.isRTL"
+      <div class="m-2">
+          <b-table
+              ref="refUserListTable"
+              class="position-relative"
+              :items="products.items"
+              responsive
+              :fields="productsColumns"
+              primary-key="id"
+              show-empty
+              empty-text="No matching records found"
           >
 
-            <template #button-content>
-              <feather-icon
-                icon="MoreVerticalIcon"
-                size="16"
-                class="align-middle text-body"
-              />
-            </template>
-            <b-dropdown-item :to="{ name: 'apps-users-view', params: { id: data.item.id } }">
-              <feather-icon icon="FileTextIcon" />
-              <span class="align-middle ml-50">Details</span>
-            </b-dropdown-item>
+              <!-- Column: Image -->
+              <template #cell(image)="data">
+                  <b-media vertical-align="center">
+                      <template #aside>
+                      <b-avatar rounded
+                          size="32"
+                          :src="data.item.imageUrl"
+                      />
+                      </template>
+                  </b-media>
+              </template>
 
-            <b-dropdown-item :to="{ name: 'apps-users-edit', params: { id: data.item.id } }">
-              <feather-icon icon="EditIcon" />
-              <span class="align-middle ml-50">Edit</span>
-            </b-dropdown-item>
+              <!-- Column: category -->
+              <template #cell(category)="data">
+                  {{ data.item.category != null ? data.item.category.name : "" }}
+              </template>
 
-            <b-dropdown-item>
-              <feather-icon icon="TrashIcon" />
-              <span class="align-middle ml-50">Delete</span>
-            </b-dropdown-item>
-          </b-dropdown>
-        </template>
+              <!-- Column: Action -->
+              <template
+                #cell(actions)="data"
+                class="text-center"
+              >
+                <div class="text-center">
+                  <feather-icon icon="EditIcon"  @click.stop.prevent="openAddProduct(data.item)" />
+                </div>
+              </template>
 
-      </b-table>
+          </b-table>
+      </div>
+
       <div class="mx-2 mb-2">
-        <b-row>
-          <!-- Pagination -->
-          <b-col
-            cols="12"
-            sm="6"
-            class="d-flex align-items-center justify-content-center justify-content-sm-end"
-          >
+          <b-row>
+              <!-- Pagination -->
+              <b-col
+                  cols="12"
+                  sm="6"
+                  class="d-flex align-items-center justify-content-center justify-content-sm-end"
+              >
 
-            <b-pagination
-              v-model="currentPage"
-              :total-rows="totalUsers"
-              :per-page="perPage"
-              first-number
-              last-number
-              class="mb-0 mt-1 mt-sm-0"
-              prev-class="prev-item"
-              next-class="next-item"
-            >
-              <template #prev-text>
-                <feather-icon
-                  icon="ChevronLeftIcon"
-                  size="18"
-                />
-              </template>
-              <template #next-text>
-                <feather-icon
-                  icon="ChevronRightIcon"
-                  size="18"
-                />
-              </template>
-            </b-pagination>
+                  <b-pagination
+                  v-model="currentPage"
+                  :total-rows="products.totalRecords"
+                  :per-page="perPage"
+                  @change="pageChange"
+                  first-number
+                  last-number
+                  class="mb-0 mt-1 mt-sm-0"
+                  prev-class="prev-item"
+                  next-class="next-item"
+                  >
+                  <template #prev-text>
+                      <feather-icon
+                      icon="ChevronLeftIcon"
+                      size="18"
+                      />
+                  </template>
+                  <template #next-text>
+                      <feather-icon
+                      icon="ChevronRightIcon"
+                      size="18"
+                      />
+                  </template>
+                  </b-pagination>
 
-          </b-col>
+              </b-col>
 
-        </b-row>
+          </b-row>
       </div>
     </b-card>
 
@@ -447,9 +306,7 @@
 
 <script>
 import { BTabs, BTab,
-BCard, BRow, BCol, BTable, BMedia, BAvatar, BLink,
-BBadge, BDropdown, BDropdownItem, BPagination, } from 'bootstrap-vue'
-import { ref } from '@vue/composition-api'
+BCard, BRow, BCol, BTable, BMedia, BAvatar, BPagination, } from 'bootstrap-vue'
 
 export default {
   name: "DashboardPage",
@@ -462,24 +319,52 @@ export default {
     BTable,
     BMedia,
     BAvatar,
-    BLink,
-    BBadge,
-    BDropdown,
-    BDropdownItem,
     BPagination,
   },
-  setup() {
-    var users = [];
+  data: () => ({
+    // Products
+    products: {
+        items: [],
+        nextToken: null,
+        totalRecords: 0
+    },   
+    productsColumns: [],
+
+    // ShopOwners
+    shopOwners: {
+        items: [],
+        nextToken: null,
+        totalRecords: 0
+    }, 
+    shopOwnersColumns: [],
+
+    // Users
+    users: {
+        items: [],
+        nextToken: null,
+        totalRecords: 0
+    }, 
+    usersColumns: [],
+
+    currentPage: 1,
+    nextToken: null,
+    nextNextToken: null,
+    previousTokens: [],
+    perPage: 10,
+    sortDirection: 'id',
+  }),
+
+  async mounted() {
     // Table Handlers
-    const productsColumns = [
-        { key: 'Image' },
-        { key: 'Product Name', sortable: true },
-        { key: 'Category', sortable: true },
-        { key: 'Price' },
-        { key: 'Action' },
+    this.productsColumns = [
+        { key: 'image', label: 'Image' },
+        { key: 'name', label: 'Product Name', sortable: true },
+        { key: 'category', label: 'Category', sortable: true },
+        { key: 'price', label: 'Price', sortable: true },
+        { key: 'actions' },
     ];
 
-     const shopOwnersColumns = [
+    this.shopOwnersColumns = [
         { key: 'Shop Name', sortable: true},
         { key: 'User Name', sortable: true},
         { key: 'Total Products'},
@@ -487,31 +372,41 @@ export default {
         { key: 'Action' },
     ];
 
-     const usersColumns = [
+    this.usersColumns = [
         { key: 'User Name' },
         { key: 'Email', sortable: true },
         { key: 'Status' },
         { key: 'Action' },
     ];
 
-    const perPage = ref(10);
-    const sortBy = ref('id');
-    const totalUsers = ref(0)
-    const currentPage = ref(1)
+    this.getProducts();
+  },
+  methods: {
+    async getProducts() {
+        const variables = {
+            limit: this.perPage,
+            sortDirection: this.sortDirection,
+        };
 
-    return {
+        if (this.nextToken != null)
+            variables.nextToken = this.nextToken;
 
-      productsColumns,
-      shopOwnersColumns,
-      usersColumns,
+        this.products = await this.$store.dispatch("products/getProductsPagination", variables);
 
-      users,
+        this.previousTokens.push(this.nextToken);
+        this.nextNextToken = this.products.nextToken;
+        console.log(this.products);
+    },
 
-      perPage,
-      currentPage,
-      totalUsers,
-      sortBy,
-    }
-  }
+    pageChange(pageNum) {
+        if (this.currentPage < pageNum) {
+            this.nextToken = this.nextNextToken;
+        } else {
+            this.nextToken = this.previousTokens.pop();
+        }
+        
+        this.getProducts();
+    },
+  },
 };
 </script>
