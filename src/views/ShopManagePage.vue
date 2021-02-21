@@ -25,7 +25,6 @@
         <!-- Table -->
         <div class="m-2">
           <b-table
-              ref="refUserListTable"
               class="position-relative"
               :items="shops.items"
               responsive
@@ -47,9 +46,15 @@
                   </b-media>
               </template>
 
-              <!-- Column: category -->
-              <template #cell(category)="data">
-                  {{ data.item.category != null ? data.item.category.name : "" }}
+              <!-- Column: status -->
+              <template #cell(status)="data">
+                   <b-badge pill
+                      :key="data.item.id"
+                      variant="success"
+                      class="text-capitalize"
+                    >
+                      Active
+                    </b-badge>
               </template>
 
               <!-- Column: Action -->
@@ -142,6 +147,7 @@ export default {
         { key: 'name', label: 'Shop Name', sortable: true},
         { key: 'username', label: 'User Name', sortable: true},
         { key: 'totalProducts', label: 'Total Products'},
+        { key: 'status', label: 'Status'},
         { key: 'actions', label: 'Action' },
     ];
 

@@ -1,4 +1,4 @@
-import { API, graphqlOperation } from "aws-amplify";
+import { API, graphqlOperation, Auth } from "aws-amplify";
 import { getUser as getUserQuery } from "@/graphql/queries";
 import { listUsers as listUsersQuery } from '@/graphql/queries';
 import { countUsers as countUsersQuery } from '@/graphql/queries';
@@ -7,10 +7,13 @@ import { updateUser as updateUserMutation } from "@/graphql/mutations";
 
 export const users = {
     namespaced: true,
-    state: { users: null },
+    state: { users: [], user: null },
     mutations: {
         setUsers(state, payload) {
             state.users = payload;
+        },
+        setUser(state, payload) {
+            state.user = payload;
         }
     },
     actions: {
@@ -101,8 +104,21 @@ export const users = {
             return usersData.data.listUsers.items.length;
         },
 
+        async currentUser({ commit, dispatch }) {
+            const userInfo = await Auth.currentUserInfo();
+            if (userInfo == null)
+                return null;
+
+            const user =  await dispatch("getUserByOwnerId", userInfo.id);
+
+            commit("setUser", user);
+            return user;
+        },
+
+
     },
     getters: {
-        users: (state) => state.users
+        users: (state) => state.users,
+        user: (state) => state.user
     }
 }

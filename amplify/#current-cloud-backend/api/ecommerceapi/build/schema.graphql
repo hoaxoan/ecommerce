@@ -7,6 +7,7 @@ type User {
   createdAt: String
   updatedAt: String
   owner: String
+  role: String
 }
 
 type Shop {
@@ -150,6 +151,7 @@ input ModelUserFilterInput {
   createdAt: ModelStringInput
   updatedAt: ModelStringInput
   owner: ModelStringInput
+  role: ModelStringInput
   and: [ModelUserFilterInput]
   or: [ModelUserFilterInput]
   not: ModelUserFilterInput
@@ -190,6 +192,7 @@ input CreateUserInput {
   createdAt: String
   updatedAt: String
   owner: String
+  role: String
 }
 
 input UpdateUserInput {
@@ -201,6 +204,7 @@ input UpdateUserInput {
   createdAt: String
   updatedAt: String
   owner: String
+  role: String
 }
 
 input DeleteUserInput {
@@ -232,6 +236,7 @@ input ModelUserConditionInput {
   email: ModelStringInput
   createdAt: ModelStringInput
   updatedAt: ModelStringInput
+  role: ModelStringInput
   and: [ModelUserConditionInput]
   or: [ModelUserConditionInput]
   not: ModelUserConditionInput

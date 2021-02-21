@@ -109,7 +109,7 @@
         <span>Shops</span>
       </template>
 
-<!-- Table Shop Owners Container Card -->
+    <!-- Table Shop Container Card -->
     <b-card
       no-body
       class="mb-0"
@@ -139,9 +139,15 @@
                   </b-media>
               </template>
 
-              <!-- Column: category -->
-              <template #cell(category)="data">
-                  {{ data.item.category != null ? data.item.category.name : "" }}
+               <!-- Column: status -->
+              <template #cell(status)="data">
+                   <b-badge pill
+                      :key="data.item.id"
+                      variant="success"
+                      class="text-capitalize"
+                    >
+                      Active
+                    </b-badge>
               </template>
 
               <!-- Column: Action -->
@@ -241,13 +247,24 @@
                   {{ data.item.category != null ? data.item.category.name : "" }}
               </template>
 
+              <!-- Column: status -->
+              <template #cell(status)="data">
+                   <b-badge pill
+                      :key="data.item.id"
+                      variant="success"
+                      class="text-capitalize"
+                    >
+                      Active
+                    </b-badge>
+              </template>
+
               <!-- Column: Action -->
               <template
                 #cell(actions)="data"
                 class="text-center"
               >
                 <div class="text-center">
-                  <feather-icon icon="EditIcon"  @click.stop.prevent="openAddProduct(data.item)" />
+                  <feather-icon icon="EditIcon"  @click.stop.prevent="openAdddUser(data.item)" />
                 </div>
               </template>
 
@@ -368,12 +385,14 @@ export default {
         { key: 'name', label: 'Shop Name', sortable: true},
         { key: 'username', label: 'User Name', sortable: true},
         { key: 'totalProducts', label: 'Total Products'},
+        { key: 'status', label: 'Status', sortable: true },
         { key: 'actions', label: 'Action' },
     ];
 
     this.usersColumns = [
         { key: 'username', label: 'User Name' },
         { key: 'email', label: 'Email', sortable: true },
+        { key: 'status', label: 'Status', sortable: true },
         { key: 'actions', label: 'Action' },
     ];
 
@@ -387,6 +406,10 @@ export default {
     this.getUsers();
   },
   methods: {
+    async openAdddUser(item) {
+      this.$router.push(`/add-user/${item.id}`);
+    },
+
     async getProducts() {
         const variables = {
             limit: this.perPage,

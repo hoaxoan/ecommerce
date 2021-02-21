@@ -3,7 +3,7 @@
     <div id="nav">
       <!-- <router-link to="/">Home</router-link> | -->
       <!-- <router-link to="/about">About</router-link> -->
-      <Nav />
+      <Nav/>
     </div>
     <router-view />
   </div>
@@ -20,6 +20,12 @@ export default {
   },
   methods: {
     ...mapActions("auth", ["authAction"]),
+  },
+  setup() {
+    // const currentUser = this.$store.dispatch("users/currentUser");
+    // return {
+    //   currentUser
+    // }
   },
 };
 </script>

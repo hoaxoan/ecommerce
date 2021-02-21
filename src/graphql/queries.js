@@ -12,6 +12,7 @@ export const getUser = /* GraphQL */ `
       email
       createdAt
       updatedAt
+      role
     }
   }
 `;
@@ -31,6 +32,7 @@ export const listUsers = /* GraphQL */ `
         email
         createdAt
         updatedAt
+        role
       }
       nextToken
     }

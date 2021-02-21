@@ -15,6 +15,7 @@ export const createUser = /* GraphQL */ `
       createdAt
       updatedAt
       owner
+      role
     }
   }
 `;
@@ -32,6 +33,7 @@ export const updateUser = /* GraphQL */ `
       createdAt
       updatedAt
       owner
+      role
     }
   }
 `;
@@ -49,6 +51,7 @@ export const deleteUser = /* GraphQL */ `
       createdAt
       updatedAt
       owner
+      role
     }
   }
 `;

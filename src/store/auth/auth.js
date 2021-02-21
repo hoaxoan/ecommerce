@@ -74,6 +74,7 @@ export const auth = {
 
             }
         },
+        
         async authAction({ commit }) {
             const userInfo = await Auth.currentUserInfo();
             commit("setUser", userInfo);

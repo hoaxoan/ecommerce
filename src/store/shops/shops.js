@@ -135,14 +135,14 @@ export const shops = {
             const shops = shopsData.data.listShops;
             for (let i = 0; i < shops.items.length; i++) {
                 const shop = shops.items[i];
-
-                console.log(shop);
                 // Users
                 const usersData = await API.graphql(graphqlOperation(listUsersQuery, { ownerId: shop.userId }));
                 if (usersData.data.listUsers != null && usersData.data.listUsers.items != null) {
                     shop.username = usersData.data.listUsers.items[0].username;
                 }
-                console.log(usersData);
+
+                // Total Product
+                shop.totalProducts = 0;
             }
             // Total records
             shops.totalRecords =  await dispatch("countShops", shopFilter);

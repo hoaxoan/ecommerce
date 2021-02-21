@@ -3,7 +3,7 @@
     <div class="auth-inner py-2">
 
       <!-- Register -->
-      <b-card class="mb-0">
+      <b-card class="mb-0" v-if="!confirmPassword">
         <b-link class="brand-logo">
           <h2 class="brand-text text-primary ml-1">
             Register
@@ -74,6 +74,44 @@
         </b-card-text>
       </b-card>
     <!-- /Register -->
+
+    <!-- Confirm -->
+      <b-card class="mb-0" v-if="confirmPassword">
+        <b-link class="brand-logo">
+          <h2 class="brand-text text-primary ml-1">
+            Confirm Code
+          </h2>
+        </b-link>
+
+        <!-- form -->
+        <b-form
+            class="auth-register-form mt-2"
+            @submit.prevent="confirmSignUp"
+          >
+            <!-- username -->
+            <b-form-group
+              label="Code"
+              label-for="code"
+            >
+              <b-form-input
+                  id="code"
+                  v-model="code"
+                  name="code"
+                />
+            </b-form-group>
+
+            <!-- submit button -->
+            <b-button
+              variant="primary"
+              block
+              type="submit"
+            >
+              Confirm Code
+            </b-button>
+          </b-form>
+        
+      </b-card>
+    <!-- /Register -->
     </div>
   </div>
 </template>
@@ -132,13 +170,39 @@ export default {
           username,
           code,
         });
-        await this.$store.dispatch("auth/login", {
+        var user = await this.$store.dispatch("auth/login", {
           username,
           password,
         });
-        this.$router.push("/albums");
+        await this.createUpdateUser(user);
+        this.$router.push("/");
       } catch (error) {
         console.log(error);
+        this.error = error;
+      }
+    },
+
+    
+    async createUpdateUser(user) {
+      try {
+        this.error = "";
+        if (!user) {
+          this.error = "Please enter an login";
+          return;
+        }
+        const newUser = {
+          ownerId: user.id,
+          owner: user.username,
+          name: user.username,
+          username: user.username
+        };
+
+        if (user.attributes != null && user.attributes.email != null) {
+            newUser.email = user.attributes.email;
+        }
+
+        await this.$store.dispatch("users/createUpdateUser", newUser);
+      } catch (error) {
         this.error = error;
       }
     },

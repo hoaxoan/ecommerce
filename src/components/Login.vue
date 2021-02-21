@@ -16,6 +16,7 @@
             block
             @click="signInWithGoogle"
           >
+            <b-icon icon="google"></b-icon>
             Sign In with Google
           </b-button>
         <div class="divider my-2">
@@ -115,7 +116,7 @@ export default {
         var user = await this.loginWithGoogle();
 
         await this.createUpdateUser(user);
-        this.$router.push("/home");
+        this.$router.push("/");
       } catch (error) {
         this.error = error;
       }
@@ -128,7 +129,7 @@ export default {
         });
 
         await this.createUpdateUser(user);
-        this.$router.push("/home");
+        this.$router.push("/");
       } catch (error) {
         this.error = error;
       }

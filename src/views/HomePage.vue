@@ -1,17 +1,35 @@
 <template>
   <div class="home">
-    <Login />
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import Login from "@/components/Login.vue";
+import { mapGetters } from "vuex";
 
 export default {
   name: "HomePage",
   components: {
-    Login,
+  },
+
+  data: () => ({
+  }),
+
+  computed: {
+    ...mapGetters({
+    }),
+  },
+
+  async mounted() {
+    const user = await this.$store.dispatch("users/currentUser");
+    if (user != null && user.role == "admin") {
+      this.$router.push("/dashboard");
+    } else if (user != null && user.role == "shop") {
+      this.$router.push("/product-manage");
+    } else if (user != null) {
+      this.$router.push("/products");
+    } else {
+      this.$router.push("/login");
+    }
   },
 };
 </script>

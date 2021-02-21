@@ -5,7 +5,7 @@ import store from './store'
 import Amplify, { Auth, Storage } from 'aws-amplify';
 import '@aws-amplify/ui-vue';
 import aws_exports from './aws-exports';
-import { BootstrapVue, ToastPlugin, ModalPlugin } from 'bootstrap-vue'
+import { BootstrapVue, ToastPlugin, ModalPlugin, BootstrapVueIcons } from 'bootstrap-vue'
 import PortalVue from 'portal-vue'
 import VueCompositionAPI from '@vue/composition-api'
 import FeatherIcon from '@/components/FeatherIcon.vue'
@@ -24,6 +24,7 @@ Vue.use(VueCompositionAPI)
 
 // BSV Plugin Registration
 Vue.use(BootstrapVue)
+Vue.use(BootstrapVueIcons)
 Vue.use(ToastPlugin)
 Vue.use(ModalPlugin)
 

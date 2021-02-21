@@ -12,6 +12,7 @@ import AddShopPage from '../views/AddShopPage.vue';
 import ShopManagePage from '../views/ShopManagePage.vue';
 import AddCategoryPage from '../views/AddCategoryPage.vue';
 import CategoryManagePage from '../views/CategoryManagePage.vue';
+import AddUserPage from '../views/AddUserPage.vue';
 
 import { Auth } from 'aws-amplify';
 
@@ -24,7 +25,7 @@ const routes = [
     component: HomePage
   },  
   {
-    path: '/product-list',
+    path: '/products',
     name: 'ProductListPage',
     component: ProductListPage
   },
@@ -69,13 +70,18 @@ const routes = [
     component: DashboardPage
   },
   {
+    path: '/add-user/:id',
+    name: 'AddUserPage',
+    component: AddUserPage
+  },
+  {
     path: "/login",
-    name: "LoginPage",
+    name: "login",
     component: LoginPage
   },
   {
     path: "/signup",
-    name: "SignUpPage",
+    name: "signup",
     component: SignUpPage
   }
 ]

@@ -10,6 +10,7 @@ type User
   createdAt: String
   updatedAt: String
   owner: String
+  role: String
 }
 
 type Shop 
