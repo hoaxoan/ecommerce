@@ -6,12 +6,12 @@ export const onCreateUser = /* GraphQL */ `
     onCreateUser(owner: $owner) {
       id
       ownerId
-      owner
       username
       name
       email
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -20,12 +20,12 @@ export const onUpdateUser = /* GraphQL */ `
     onUpdateUser(owner: $owner) {
       id
       ownerId
-      owner
       username
       name
       email
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -34,12 +34,12 @@ export const onDeleteUser = /* GraphQL */ `
     onDeleteUser(owner: $owner) {
       id
       ownerId
-      owner
       username
       name
       email
       createdAt
       updatedAt
+      owner
     }
   }
 `;

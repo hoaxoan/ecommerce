@@ -1,12 +1,12 @@
 type User {
   id: ID!
   ownerId: ID!
-  owner: String
   username: String
   name: String
   email: String
   createdAt: String
   updatedAt: String
+  owner: String
 }
 
 type Shop {
@@ -22,8 +22,8 @@ type Category {
   id: ID!
   name: String!
   products(createdAt: ModelStringKeyConditionInput, filter: ModelProductFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelProductConnection
-  createdAt: AWSDateTime!
-  updatedAt: AWSDateTime!
+  createdAt: String
+  updatedAt: String
   owner: String
 }
 
@@ -144,12 +144,12 @@ input ModelSizeInput {
 input ModelUserFilterInput {
   id: ModelIDInput
   ownerId: ModelIDInput
-  owner: ModelStringInput
   username: ModelStringInput
   name: ModelStringInput
   email: ModelStringInput
   createdAt: ModelStringInput
   updatedAt: ModelStringInput
+  owner: ModelStringInput
   and: [ModelUserFilterInput]
   or: [ModelUserFilterInput]
   not: ModelUserFilterInput
@@ -177,7 +177,6 @@ type Query {
   listCategorys(filter: ModelCategoryFilterInput, limit: Int, nextToken: String): ModelCategoryConnection
   getProduct(id: ID!): Product
   listProducts(filter: ModelProductFilterInput, limit: Int, nextToken: String): ModelProductConnection
-  countProducts(filter: ModelProductFilterInput, limit: Int, nextToken: String): ModelProductConnection
   getImage(id: ID!): Image
   listImages(filter: ModelImageFilterInput, limit: Int, nextToken: String): ModelImageConnection
 }
@@ -185,23 +184,23 @@ type Query {
 input CreateUserInput {
   id: ID
   ownerId: ID!
-  owner: String
   username: String
   name: String
   email: String
   createdAt: String
   updatedAt: String
+  owner: String
 }
 
 input UpdateUserInput {
   id: ID!
   ownerId: ID
-  owner: String
   username: String
   name: String
   email: String
   createdAt: String
   updatedAt: String
+  owner: String
 }
 
 input DeleteUserInput {
@@ -267,6 +266,7 @@ input ModelShopFilterInput {
   userId: ModelIDInput
   createdAt: ModelStringInput
   updatedAt: ModelStringInput
+  owner: ModelStringInput
   and: [ModelShopFilterInput]
   or: [ModelShopFilterInput]
   not: ModelShopFilterInput
@@ -278,6 +278,7 @@ input CreateShopInput {
   userId: ID
   createdAt: String
   updatedAt: String
+  owner: String
 }
 
 input UpdateShopInput {
@@ -286,6 +287,7 @@ input UpdateShopInput {
   userId: ID
   createdAt: String
   updatedAt: String
+  owner: String
 }
 
 input DeleteShopInput {
@@ -310,6 +312,9 @@ type ModelCategoryConnection {
 input ModelCategoryFilterInput {
   id: ModelIDInput
   name: ModelStringInput
+  createdAt: ModelStringInput
+  updatedAt: ModelStringInput
+  owner: ModelStringInput
   and: [ModelCategoryFilterInput]
   or: [ModelCategoryFilterInput]
   not: ModelCategoryFilterInput
@@ -318,11 +323,17 @@ input ModelCategoryFilterInput {
 input CreateCategoryInput {
   id: ID
   name: String!
+  createdAt: String
+  updatedAt: String
+  owner: String
 }
 
 input UpdateCategoryInput {
   id: ID!
   name: String
+  createdAt: String
+  updatedAt: String
+  owner: String
 }
 
 input DeleteCategoryInput {
@@ -331,6 +342,8 @@ input DeleteCategoryInput {
 
 input ModelCategoryConditionInput {
   name: ModelStringInput
+  createdAt: ModelStringInput
+  updatedAt: ModelStringInput
   and: [ModelCategoryConditionInput]
   or: [ModelCategoryConditionInput]
   not: ModelCategoryConditionInput
@@ -347,6 +360,7 @@ input ModelProductFilterInput {
   price: ModelIntInput
   createdAt: ModelStringInput
   updatedAt: ModelStringInput
+  owner: ModelStringInput
   and: [ModelProductFilterInput]
   or: [ModelProductFilterInput]
   not: ModelProductFilterInput
@@ -358,6 +372,7 @@ input CreateProductInput {
   price: Int
   createdAt: String
   updatedAt: String
+  owner: String
   productCategoryId: ID
 }
 
@@ -367,6 +382,7 @@ input UpdateProductInput {
   price: Int
   createdAt: String
   updatedAt: String
+  owner: String
   productCategoryId: ID
 }
 
@@ -403,6 +419,7 @@ input ModelImageFilterInput {
   size: ModelIntInput
   createdAt: ModelStringInput
   updatedAt: ModelStringInput
+  owner: ModelStringInput
   and: [ModelImageFilterInput]
   or: [ModelImageFilterInput]
   not: ModelImageFilterInput
@@ -418,6 +435,7 @@ input CreateImageInput {
   size: Int
   createdAt: String
   updatedAt: String
+  owner: String
   imageProductId: ID
 }
 
@@ -431,6 +449,7 @@ input UpdateImageInput {
   size: Int
   createdAt: String
   updatedAt: String
+  owner: String
   imageProductId: ID
 }
 

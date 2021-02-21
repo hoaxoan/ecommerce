@@ -4,12 +4,12 @@ type User
 {
   id: ID!
   ownerId: ID!
-  owner: String
   username: String
   name: String
   email: String
   createdAt: String
   updatedAt: String
+  owner: String
 }
 
 type Shop 
@@ -21,6 +21,7 @@ type Shop
   userId: ID
   createdAt: String
   updatedAt: String
+  owner: String
 }
 
 type Category 
@@ -30,6 +31,9 @@ type Category
   id: ID!
   name: String!
   products: [Product] @connection(name: "ProductCategories", sortField: "createdAt")
+  createdAt: String
+  updatedAt: String
+  owner: String
 }
 
 type Product 
@@ -43,6 +47,7 @@ type Product
   images: [Image] @connection(name: "ProductImages", sortField: "createdAt")
   createdAt: String
   updatedAt: String
+  owner: String
 }
 
 
@@ -60,6 +65,7 @@ type Image
   product: Product @connection(name: "ProductImages", sortField: "createdAt")
   createdAt: String
   updatedAt: String
+  owner: String
 }
 
 type S3Object @aws_iam @aws_cognito_user_pools {

@@ -81,9 +81,13 @@ export default {
         return;
       }
       try {
-        await this.$store.dispatch("auth/signUp", {
-          name: this.name,
-        });
+        const newShop = {
+            name: this.name,
+            userId: this.user.id,
+        };
+
+        const shop = await this.$store.dispatch("shops/createUpdateShop", newShop);
+        console.log(shop);
 
       } catch (error) {
         this.error = error;
