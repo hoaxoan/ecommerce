@@ -127,6 +127,20 @@ export const listCategorys = /* GraphQL */ `
     }
   }
 `;
+export const countCategorys = /* GraphQL */ `
+  query CountCategorys(
+    $filter: ModelCategoryFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listCategorys(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+      }
+      nextToken
+    }
+  }
+`;
 export const getProduct = /* GraphQL */ `
   query GetProduct($id: ID!) {
     getProduct(id: $id) {

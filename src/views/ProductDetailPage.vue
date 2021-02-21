@@ -25,7 +25,6 @@
                 {{ item.text }}
               </b-breadcrumb-item>
             </b-breadcrumb>
-            <!-- <b-breadcrumb :items="breadcrumbs"></b-breadcrumb> -->
         </b-row>
         <b-row class="my-2">
 
