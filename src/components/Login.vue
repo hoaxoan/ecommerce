@@ -114,7 +114,7 @@ export default {
       try {
         var user = await this.loginWithGoogle();
 
-        await this.createUser(user);
+        await this.createUpdateUser(user);
         this.$router.push("/home");
       } catch (error) {
         this.error = error;
@@ -127,13 +127,13 @@ export default {
           password: this.password,
         });
 
-        await this.createUser(user);
+        await this.createUpdateUser(user);
         this.$router.push("/home");
       } catch (error) {
         this.error = error;
       }
     },
-    async createUser(user) {
+    async createUpdateUser(user) {
       try {
         this.error = "";
         if (!user) {
@@ -151,7 +151,7 @@ export default {
             newUser.email = user.attributes.email;
         }
 
-        await this.$store.dispatch("users/createUser", newUser);
+        await this.$store.dispatch("users/createUpdateUser", newUser);
       } catch (error) {
         this.error = error;
       }

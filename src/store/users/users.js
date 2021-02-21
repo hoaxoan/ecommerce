@@ -1,8 +1,9 @@
 import { API, graphqlOperation } from "aws-amplify";
-import { createUser as createUserMutation } from "@/graphql/mutations";
 import { getUser as getUserQuery } from "@/graphql/queries";
 import { listUsers as listUsersQuery } from '@/graphql/queries';
 import { countUsers as countUsersQuery } from '@/graphql/queries';
+import { createUser as createUserMutation } from "@/graphql/mutations";
+import { updateUser as updateUserMutation } from "@/graphql/mutations";
 
 export const users = {
     namespaced: true,
@@ -13,19 +14,42 @@ export const users = {
         }
     },
     actions: {
-        async createUser(_, newUser) {
+        async createUpdateUser({ dispatch }, newUser) {
             try {
-                await API.graphql(graphqlOperation(createUserMutation, { input: newUser }))
-
+                const user = await dispatch("getUserByOwnerId", newUser.ownerId);
+                if (user != null && user.id != null && user.id.length > 0) {
+                    newUser.id = user.id;
+                    await API.graphql(graphqlOperation(updateUserMutation, { input: newUser }));
+                } else {
+                    await API.graphql(graphqlOperation(createUserMutation, { input: newUser }));
+                }
             } catch (error) {
                 console.error("createUser", error)
+            }
+        },
+
+        async getUserByOwnerId(_, ownerId) {
+            try {
+
+                const usersData = await API.graphql(graphqlOperation(listUsersQuery, { ownerId: ownerId }));
+                if (usersData == null ||
+                    usersData.data == null ||
+                    usersData.data.listUsers == null ||
+                    usersData.data.listUsers.items.length == 0)
+                    return null;
+
+                return usersData.data.listUsers.items[0];
+
+            } catch (error) {
+                console.log("getUserByOwnerId", error);
+                return null;
             }
         },
 
         async getUser(_, id) {
             try {
 
-                const userData = await API.graphql(graphqlOperation(getUserQuery, { id: id }))
+                const userData = await API.graphql(graphqlOperation(getUserQuery, { id: id }));
                 if (userData == null ||
                     userData.data == null ||
                     userData.data.getUser == null)
