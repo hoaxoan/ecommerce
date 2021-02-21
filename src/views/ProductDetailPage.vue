@@ -207,7 +207,7 @@ export default {
     breadcrumbs: [
         {
           text: 'Products',
-          href: '/product-list'
+          href: '/products'
         },
         {
           text: 'Product Detail',

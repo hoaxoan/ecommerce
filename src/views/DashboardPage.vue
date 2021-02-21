@@ -21,7 +21,6 @@
 
       <div class="m-2">
           <b-table
-              ref="refUserListTable"
               class="position-relative"
               :items="products.items"
               responsive
@@ -117,7 +116,7 @@
 
       <div class="m-2">
           <b-table
-              ref="refUserListTable"
+              ref=""
               class="position-relative"
               :items="shops.items"
               responsive
@@ -156,7 +155,7 @@
                 class="text-center"
               >
                 <div class="text-center">
-                  <feather-icon icon="EditIcon"  @click.stop.prevent="openAddProduct(data.item)" />
+                  <feather-icon icon="EditIcon" @click.stop.prevent="openAddShop(data.item)" />
                 </div>
               </template>
 
@@ -220,7 +219,6 @@
 
       <div class="m-2">
           <b-table
-              ref="refUserListTable"
               class="position-relative"
               :items="users.items"
               responsive
@@ -264,7 +262,7 @@
                 class="text-center"
               >
                 <div class="text-center">
-                  <feather-icon icon="EditIcon"  @click.stop.prevent="openAdddUser(data.item)" />
+                  <feather-icon icon="EditIcon"  @click.stop.prevent="openAddUser(data.item)" />
                 </div>
               </template>
 
@@ -406,7 +404,15 @@ export default {
     this.getUsers();
   },
   methods: {
-    async openAdddUser(item) {
+    async openAddProduct(item) {
+      console.log(item);
+    },
+
+    async openAddShop(item) {
+      console.log(item);
+    },
+
+    async openAddUser(item) {
       this.$router.push(`/add-user/${item.id}`);
     },
 

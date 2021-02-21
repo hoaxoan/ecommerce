@@ -25,7 +25,6 @@
         <!-- Table -->
         <div class="m-2">
             <b-table
-                ref="refUserListTable"
                 class="position-relative"
                 :items="products.items"
                 responsive
