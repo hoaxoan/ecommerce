@@ -28,7 +28,7 @@
         "OAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"http://localhost:8080/\"],\"LogoutURLs\":[\"http://localhost:8080/\"]}",
         "UserPoolName": "ecommerceceee04c2_userpool_ceee04c2"
       },
-      "lastPushTimeStamp": "2021-02-21T15:58:11.512Z",
+      "lastPushTimeStamp": "2021-02-22T16:37:10.355Z",
       "providerMetadata": {
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-ecommerce-dev-84455-deployment/amplify-cfn-templates/auth/ecommerceceee04c2-cloudformation-template.yml",
         "logicalId": "authecommerceceee04c2"
@@ -44,7 +44,7 @@
         "BucketName": "ecommerce537e1cf3046b437e855f2f3427a71ebc84455-dev",
         "Region": "us-east-2"
       },
-      "lastPushTimeStamp": "2021-02-21T15:58:11.516Z",
+      "lastPushTimeStamp": "2021-02-22T16:37:10.361Z",
       "providerMetadata": {
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-ecommerce-dev-84455-deployment/amplify-cfn-templates/storage/s3-cloudformation-template.json",
         "logicalId": "storageAmplifyPhotoStorage"
@@ -69,12 +69,12 @@
         "GraphQLAPIIdOutput": "ofgmtnb5ffahjh3hwbuktj2emq",
         "GraphQLAPIEndpointOutput": "https://4eemxtmyazf6jexi73qrzrigpu.appsync-api.us-east-2.amazonaws.com/graphql"
       },
-      "lastPushTimeStamp": "2021-02-21T15:58:11.531Z",
+      "lastPushTimeStamp": "2021-02-22T16:37:11.641Z",
       "providerMetadata": {
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-ecommerce-dev-84455-deployment/amplify-cfn-templates/api/cloudformation-template.json",
         "logicalId": "apiecommerceapi"
       },
-      "lastPushDirHash": "BTQ3h5CLHFdkQvT7zd5SHSm+VtI="
+      "lastPushDirHash": "K5R8OEvqFjl0EVO/XhLO7GvD5Yk="
     }
   }
 }

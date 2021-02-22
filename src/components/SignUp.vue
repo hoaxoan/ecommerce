@@ -192,7 +192,6 @@ export default {
         }
         const newUser = {
           ownerId: user.id,
-          owner: user.username,
           name: user.username,
           username: user.username
         };

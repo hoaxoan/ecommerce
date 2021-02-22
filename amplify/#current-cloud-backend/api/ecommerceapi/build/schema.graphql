@@ -37,6 +37,7 @@ type Product {
   createdAt: String
   updatedAt: String
   owner: String
+  categoryId: String
 }
 
 type Image {
@@ -366,6 +367,7 @@ input ModelProductFilterInput {
   createdAt: ModelStringInput
   updatedAt: ModelStringInput
   owner: ModelStringInput
+  categoryId: ModelStringInput
   and: [ModelProductFilterInput]
   or: [ModelProductFilterInput]
   not: ModelProductFilterInput
@@ -378,6 +380,7 @@ input CreateProductInput {
   createdAt: String
   updatedAt: String
   owner: String
+  categoryId: String
   productCategoryId: ID
 }
 
@@ -388,6 +391,7 @@ input UpdateProductInput {
   createdAt: String
   updatedAt: String
   owner: String
+  categoryId: String
   productCategoryId: ID
 }
 
@@ -400,6 +404,7 @@ input ModelProductConditionInput {
   price: ModelIntInput
   createdAt: ModelStringInput
   updatedAt: ModelStringInput
+  categoryId: ModelStringInput
   and: [ModelProductConditionInput]
   or: [ModelProductConditionInput]
   not: ModelProductConditionInput

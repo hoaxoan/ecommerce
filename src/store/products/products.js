@@ -28,6 +28,7 @@ export const products = {
                     name: newProduct.name,
                     price: newProduct.price,
                     productCategoryId: newProduct.productCategoryId,
+                    categoryId: newProduct.productCategoryId,
                 };
 
                 const productData = await API.graphql(graphqlOperation(createProductMutation, { input: product }));
@@ -56,6 +57,7 @@ export const products = {
                     name: newProduct.name,
                     price: newProduct.price,
                     productCategoryId: newProduct.productCategoryId,
+                    categoryId: newProduct.productCategoryId,
                 };
 
                 const productData = await API.graphql(graphqlOperation(updateProductMutation, { input: product }));
@@ -147,9 +149,11 @@ export const products = {
 
         async getProductsPagination({ dispatch }, productFilter) {
             const variables = {
-                filter: productFilter.filter,   
+                filter: productFilter.filters,   
                 limit: productFilter.limit, 
             };
+
+            console.log(variables);
 
             if (productFilter.nextToken != null)
                 variables.nextToken = productFilter.nextToken; 
@@ -182,7 +186,7 @@ export const products = {
 
         async countProducts(_, productFilter) {
             const variables = {
-                filter: productFilter.filter    
+                filter: productFilter.filters    
             };
             const productsData = await API.graphql({ 
                 query: countProductsQuery, 

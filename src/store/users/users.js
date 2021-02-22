@@ -115,7 +115,6 @@ export const users = {
             return user;
         },
 
-
     },
     getters: {
         users: (state) => state.users,

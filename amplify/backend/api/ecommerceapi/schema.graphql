@@ -49,6 +49,7 @@ type Product
   createdAt: String
   updatedAt: String
   owner: String
+  categoryId: String
 }
 
 

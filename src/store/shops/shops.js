@@ -137,7 +137,7 @@ export const shops = {
                 const shop = shops.items[i];
                 // Users
                 const usersData = await API.graphql(graphqlOperation(listUsersQuery, { ownerId: shop.userId }));
-                if (usersData.data.listUsers != null && usersData.data.listUsers.items != null) {
+                if (usersData.data.listUsers != null && usersData.data.listUsers.items != null && usersData.data.listUsers.items.length > 0) {
                     shop.username = usersData.data.listUsers.items[0].username;
                 }
 

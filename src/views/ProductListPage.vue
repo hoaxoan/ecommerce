@@ -208,23 +208,32 @@ export default {
 
   watch: {
     searchText: function (val) {
-      console.log(val);
+      this.searchText = val;
+      // Products
+      this.getProducts();
     },
 
     categorySelecteds: function(val) {
-      console.log(val);
+      this.categorySelecteds = val;
+       // Products
+      this.getProducts();
     }
   },
 
   async mounted() {
     // Get Categories
-    var categories = await this.$store.dispatch("categories/getCategories");
-    this.categories = categories.map(category => {
-      return {
-        value: category.id,
-        text: category.name
-      }
+    const categoriesData = await this.$store.dispatch("categories/getCategories");
+    this.categories = [];
+    this.categories.push({
+        value: "",
+        text: "All"
     });
+    for (var i = 0; i < categoriesData.length; i ++) {
+      this.categories.push({
+          value: categoriesData[i].id,
+          text: categoriesData[i].name
+        });
+    }
 
     // Products
     await this.getProducts();
@@ -235,11 +244,25 @@ export default {
     async getProducts() {
         const variables = {
             limit: this.perPage,
-            sortDirection: this.sortDirection,
+            sortDirection: this.sortDirection,           
         };
 
         if (this.nextToken != null)
             variables.nextToken = this.nextToken;
+
+        var filters = {
+          name: {
+              contains: this.searchText
+          }          
+        };
+
+        if (this.categorySelecteds.length > 0) {
+          filters.categoryId = {
+              contains: this.categorySelecteds
+          };
+        }
+
+        variables.filters = filters;
 
         this.products = await this.$store.dispatch("products/getProductsPagination", variables);
 

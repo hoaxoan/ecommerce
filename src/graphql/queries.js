@@ -6,12 +6,12 @@ export const getUser = /* GraphQL */ `
     getUser(id: $id) {
       id
       ownerId
-      owner
       username
       name
       email
       createdAt
       updatedAt
+      owner
       role
     }
   }
@@ -26,12 +26,12 @@ export const listUsers = /* GraphQL */ `
       items {
         id
         ownerId
-        owner
         username
         name
         email
         createdAt
         updatedAt
+        owner
         role
       }
       nextToken
@@ -182,6 +182,7 @@ export const getProduct = /* GraphQL */ `
       createdAt
       updatedAt
       owner
+      categoryId
     }
   }
 `;
@@ -229,6 +230,7 @@ export const listProducts = /* GraphQL */ `
         createdAt
         updatedAt
         owner
+        categoryId
       }
       nextToken
     }
@@ -273,6 +275,7 @@ export const getImage = /* GraphQL */ `
         createdAt
         updatedAt
         owner
+        categoryId
       }
       createdAt
       updatedAt

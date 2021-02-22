@@ -10,5 +10,5 @@
         ]
     },
     "S3DeploymentBucket": "amplify-ecommerce-dev-84455-deployment",
-    "S3DeploymentRootKey": "amplify-appsync-files/e0c458dc129e100a68a90b803cee9769ac229322"
+    "S3DeploymentRootKey": "amplify-appsync-files/3956c035a01b75d61d5ac6f1c784ddf78f90bbee"
 }

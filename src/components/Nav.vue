@@ -79,16 +79,8 @@ export default {
     isAdmin: false,
   }),
 
-  props: {
-    currentUser: {
-      type: Object,
-    },
-  },
-
   async mounted() {
-    if (this.currentUser != null) {
-      this.user = this.currentUser;
-    } else {
+    if (this.currentUser == null) {
       this.user = await this.$store.dispatch("users/currentUser");
     }
 
@@ -130,6 +122,7 @@ export default {
   },
   computed: {
     ...mapGetters({
+      currentUser: "users/user",
     }),
   },
   

@@ -143,6 +143,7 @@ export const onCreateProduct = /* GraphQL */ `
       createdAt
       updatedAt
       owner
+      categoryId
     }
   }
 `;
@@ -165,6 +166,7 @@ export const onUpdateProduct = /* GraphQL */ `
       createdAt
       updatedAt
       owner
+      categoryId
     }
   }
 `;
@@ -187,6 +189,7 @@ export const onDeleteProduct = /* GraphQL */ `
       createdAt
       updatedAt
       owner
+      categoryId
     }
   }
 `;
@@ -215,6 +218,7 @@ export const onCreateImage = /* GraphQL */ `
         createdAt
         updatedAt
         owner
+        categoryId
       }
       createdAt
       updatedAt
@@ -247,6 +251,7 @@ export const onUpdateImage = /* GraphQL */ `
         createdAt
         updatedAt
         owner
+        categoryId
       }
       createdAt
       updatedAt
@@ -279,6 +284,7 @@ export const onDeleteImage = /* GraphQL */ `
         createdAt
         updatedAt
         owner
+        categoryId
       }
       createdAt
       updatedAt
