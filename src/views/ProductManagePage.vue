@@ -134,7 +134,7 @@ export default {
     nextToken: null,
     nextNextToken: null,
     previousTokens: [],
-    perPage: 1,
+    perPage: 10,
     sortDirection: 'id',
     defaultImage: require('@/assets/upload.png'),
   }),

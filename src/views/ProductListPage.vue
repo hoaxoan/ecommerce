@@ -201,7 +201,7 @@ export default {
         totalRecords: 0
     },
     currentPage: 1,
-    perPage: 1,
+    perPage: 10,
     categories: [],
     searchText: "",
     categorySelecteds: [],
