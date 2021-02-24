@@ -3,12 +3,12 @@
 
 const awsmobile = {
     "aws_project_region": "us-east-2",
-    "aws_cognito_identity_pool_id": "us-east-2:28be0751-3721-43c0-ac30-72a10241d7e1",
+    "aws_cognito_identity_pool_id": "us-east-2:e5bbb454-c415-46e3-8f7d-7ce24688141d",
     "aws_cognito_region": "us-east-2",
-    "aws_user_pools_id": "us-east-2_TZ4BgkNCd",
-    "aws_user_pools_web_client_id": "1bqbdvudpfi5mog3dng2ukp02c",
+    "aws_user_pools_id": "us-east-2_f4qwcI2Rz",
+    "aws_user_pools_web_client_id": "6v5qg8puaqk33n01bqkv1suu77",
     "oauth": {
-        "domain": "ecommerceauth-dev.auth.us-east-2.amazoncognito.com",
+        "domain": "ecommerceauth-devenv.auth.us-east-2.amazoncognito.com",
         "scope": [
             "phone",
             "email",
@@ -16,14 +16,14 @@ const awsmobile = {
             "profile",
             "aws.cognito.signin.user.admin"
         ],
-        "redirectSignIn": "https://master.d2mwjs2xaz0xx0.amplifyapp.com/",
-        "redirectSignOut": "https://master.d2mwjs2xaz0xx0.amplifyapp.com/",
+        "redirectSignIn": "http://localhost:8080/",
+        "redirectSignOut": "http://localhost:8080/",
         "responseType": "code"
     },
     "federationTarget": "COGNITO_USER_POOLS",
-    "aws_user_files_s3_bucket": "ecommerce537e1cf3046b437e855f2f3427a71ebc180702-staging",
+    "aws_user_files_s3_bucket": "ecommerce537e1cf3046b437e855f2f3427a71ebc10046-devenv",
     "aws_user_files_s3_bucket_region": "us-east-2",
-    "aws_appsync_graphqlEndpoint": "https://4eemxtmyazf6jexi73qrzrigpu.appsync-api.us-east-2.amazonaws.com/graphql",
+    "aws_appsync_graphqlEndpoint": "https://ztagresb7nepdea2zfolsgojui.appsync-api.us-east-2.amazonaws.com/graphql",
     "aws_appsync_region": "us-east-2",
     "aws_appsync_authenticationType": "AMAZON_COGNITO_USER_POOLS",
     "aws_appsync_apiKey": "da2-fakeApiId123456"

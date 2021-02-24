@@ -28,9 +28,9 @@
                     </div>
 
                     <!-- Prodcuts -->
-                    <section class="grid-view" v-if="products.items.length > 0">
+                    <section class="grid-view" v-if="currentProducts.length > 0">
                         <b-card
-                            v-for="product in products.items"
+                            v-for="product in currentProducts"
                             :key="product.id"
                             class="ecommerce-card"
                             no-body
@@ -41,7 +41,7 @@
                                 :alt="`${product.name}-${product.id}`"
                                 fluid
                                 class="card-img-top"
-                                :src="product.imageUrl"
+                                :src="product.imageUrl != null && product.imageUrl.length > 0 ? product.imageUrl : defaultImage"
                                 />
                             </b-link>
                             </div>
@@ -111,6 +111,7 @@
                             v-model="currentPage"
                             :total-rows="products.totalRecords"
                             :per-page="perPage"
+                            @change="pageChange"
                             first-number
                             align="center"
                             last-number
@@ -193,17 +194,19 @@ export default {
     BPagination,
   },
   data: () => ({
+    currentProducts: [],
     products: {
         items: [],
         nextToken: null,
         totalRecords: 0
     },
     currentPage: 1,
-    perPage: 10,
+    perPage: 1,
     categories: [],
     searchText: "",
     categorySelecteds: [],
     sortDirection: "id",
+    defaultImage: require('@/assets/upload.png'),
   }),
 
   watch: {
@@ -265,20 +268,14 @@ export default {
         variables.filters = filters;
 
         this.products = await this.$store.dispatch("products/getProductsPagination", variables);
-
-        // this.previousTokens.push(this.nextToken);
-        // this.nextNextToken = this.products.nextToken;
-        console.log(this.products);
+        const items = JSON.parse(JSON.stringify(this.products.items));
+        this.currentProducts = items.splice(this.currentPage - 1, this.perPage);
     },
 
-    pageChange() {
-        // if (this.currentPage < pageNum) {
-        //     this.nextToken = this.nextNextToken;
-        // } else {
-        //     this.nextToken = this.previousTokens.pop();
-        // }
-        
-        this.getProducts();
+    pageChange(value) {
+      this.currentPage = value;
+      const items = JSON.parse(JSON.stringify(this.products.items));
+      this.currentProducts = items.splice(this.currentPage - 1, this.perPage);
     },
   }
 };

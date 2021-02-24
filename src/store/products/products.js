@@ -147,13 +147,11 @@ export const products = {
             return products;
         },
 
-        async getProductsPagination({ dispatch }, productFilter) {
+        async getProductsPagination(_, productFilter) {
             const variables = {
                 filter: productFilter.filters,   
-                limit: productFilter.limit, 
+                // limit: productFilter.limit, 
             };
-
-            console.log(variables);
 
             if (productFilter.nextToken != null)
                 variables.nextToken = productFilter.nextToken; 
@@ -179,7 +177,8 @@ export const products = {
             }
 
             // Total records
-            products.totalRecords =  await dispatch("countProducts", productFilter);
+            // products.totalRecords =  await dispatch("countProducts", productFilter);
+            products.totalRecords =  products.items.length;
 
             return products;
         },

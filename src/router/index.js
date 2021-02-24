@@ -14,7 +14,7 @@ import AddCategoryPage from '../views/AddCategoryPage.vue';
 import CategoryManagePage from '../views/CategoryManagePage.vue';
 import AddUserPage from '../views/AddUserPage.vue';
 
-import { Auth } from 'aws-amplify';
+// import { Auth } from 'aws-amplify';
 
 Vue.use(VueRouter)
 
@@ -92,16 +92,16 @@ const router = new VueRouter({
   routes
 })
 
-router.beforeEach(async (to, from, next) => {
-  const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
-  const isAuthenticated = await Auth.currentUserInfo();
+// router.beforeEach(async (to, from, next) => {
+//   const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+//   const isAuthenticated = await Auth.currentUserInfo();
 
-  if (requiresAuth && !isAuthenticated) {
-    next("/");
-  } else {
-    next()
-  }
+//   if (requiresAuth && !isAuthenticated) {
+//     next("/");
+//   } else {
+//     next()
+//   }
 
-})
+// })
 
 export default router

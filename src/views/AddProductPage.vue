@@ -82,6 +82,18 @@
                           img-height="320"
                           v-if="images.length > 0"
                         >
+                           <b-carousel-slide
+                            v-for="image in images"
+                            :key="image.id"
+                            style="width: 320px; height: 320px; top: -30px;"
+                          >
+                            <amplify-s3-image
+                              level="protected"
+                              :img-key="image.fullsize.key"
+                              class="w-4/12"
+                            ></amplify-s3-image>
+                          </b-carousel-slide>
+
                           <b-carousel-slide
                             v-for="image in images"
                             :key="image.id"
@@ -249,6 +261,7 @@ export default {
         }
       }
 
+      this.$router.push("/product-manage");
     },
     
     // Upload Image
@@ -275,3 +288,9 @@ export default {
   }
 }
 </script>
+
+<style  scoped>
+amplify-s3-image {
+  --width: 75%;
+}
+</style>

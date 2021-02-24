@@ -11,6 +11,7 @@
           </b-navbar-nav>
 
           <b-navbar-nav v-if="isLogin && isShop">
+            <b-nav-item active pill href="/shop-manage">Shops</b-nav-item>
             <b-nav-item active pill href="/product-manage">Products</b-nav-item>
             <b-nav-item active href="/category-manage">Categories</b-nav-item>
           </b-navbar-nav>

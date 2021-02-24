@@ -36,7 +36,7 @@
           >
             <div class="d-flex align-items-center justify-content-center">
               <b-img
-                :src="product.imageUrl"
+                :src="product.imageUrl != null && product.imageUrl.lenght > 0 ? defaultImage : defaultImage"
                 :alt="`Image of ${product.name}`"
                 class="product-img"
                 fluid
@@ -213,7 +213,8 @@ export default {
           text: 'Product Detail',
           active: true
         }
-      ]
+    ],
+    defaultImage: require('@/assets/upload.png'),
   }),
 
   computed: {

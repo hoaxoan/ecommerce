@@ -85,10 +85,10 @@ export const categories = {
             return categoriesData.data.listCategorys.items;
         },
         
-        async getCategoriesPagination({ dispatch }, categoryFilter) {
+        async getCategoriesPagination(_, categoryFilter) {
             const variables = {
                 filter: categoryFilter.filter,   
-                limit: categoryFilter.limit, 
+                // limit: categoryFilter.limit, 
             };
 
             if (categoryFilter.nextToken != null)
@@ -102,7 +102,8 @@ export const categories = {
             const categories = categoriesData.data.listCategorys;
 
             // Total records
-            categories.totalRecords =  await dispatch("countCategories", categoryFilter);
+            // categories.totalRecords =  await dispatch("countCategories", categoryFilter);
+            categories.totalRecords = categories.items.length;
 
             return categories;
         },

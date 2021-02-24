@@ -24,7 +24,7 @@ export default {
     if (user != null && user.role == "admin") {
       this.$router.push("/dashboard");
     } else if (user != null && user.role == "shop") {
-      this.$router.push("/product-manage");
+      this.$router.push("/shop-manage");
     } else if (user != null) {
       this.$router.push("/products");
     } else {

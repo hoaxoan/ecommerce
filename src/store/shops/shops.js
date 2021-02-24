@@ -119,10 +119,10 @@ export const shops = {
             return shopsData.data.listShops.items;
         },
 
-        async getShopsPagination({ dispatch }, shopFilter) {
+        async getShopsPagination(_, shopFilter) {
             const variables = {
                 filter: shopFilter.filter,   
-                limit: shopFilter.limit, 
+                // limit: shopFilter.limit, 
             };
 
             if (shopFilter.nextToken != null)
@@ -145,7 +145,8 @@ export const shops = {
                 shop.totalProducts = 0;
             }
             // Total records
-            shops.totalRecords =  await dispatch("countShops", shopFilter);
+            // shops.totalRecords =  await dispatch("countShops", shopFilter);
+            shops.totalRecords = shops.items.length;
 
             return shops;
         },

@@ -76,7 +76,7 @@ export default {
 
   computed: {
     ...mapGetters({
-      user: "auth/user",
+      user: "users/user",
     }),
     id() {
       return this.$route.params.id;
@@ -84,13 +84,15 @@ export default {
   },
   methods: {
     async createShop() {
+      console.log(this.user);
+
       if (!this.user) {
         this.$router.push("/login");
         return;
       }
 
-      if (!this.name) {
-        this.$router.push("/home");
+      if (!this.shop.name) {
+        this.$router.push("/shop-manage");
         return;
       }
       try {

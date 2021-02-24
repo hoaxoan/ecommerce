@@ -66,10 +66,10 @@ export const users = {
             }
         },
 
-        async getUsersPagination({ dispatch }, userFilter) {
+        async getUsersPagination(_, userFilter) {
             const variables = {
                 filter: userFilter.filter,   
-                limit: userFilter.limit, 
+                // limit: userFilter.limit, 
             };
 
             if (userFilter.nextToken != null)
@@ -83,7 +83,8 @@ export const users = {
             const users = usersData.data.listUsers;
 
             // Total records
-            users.totalRecords =  await dispatch("countUsers", userFilter);
+            //users.totalRecords =  await dispatch("countUsers", userFilter);
+            users.totalRecords =  users.items.length;
 
             return users;
         },

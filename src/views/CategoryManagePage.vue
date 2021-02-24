@@ -25,8 +25,11 @@
         <!-- Table -->
         <div class="m-2">
             <b-table
+                id="categories-table"
                 class="position-relative"
                 :items="categories.items"
+                :per-page="perPage"
+                :current-page="currentPage"
                 responsive
                 :fields="tableColumns"
                 primary-key="id"
@@ -74,10 +77,10 @@
                 >
 
                     <b-pagination
+                    aria-controls="categories-table"
                     v-model="currentPage"
                     :total-rows="categories.totalRecords"
                     :per-page="perPage"
-                    @change="pageChange"
                     first-number
                     last-number
                     class="mb-0 mt-1 mt-sm-0"
@@ -131,7 +134,7 @@ export default {
     nextToken: null,
     nextNextToken: null,
     previousTokens: [],
-    perPage: 10,
+    perPage: 1,
     sortDirection: 'id',
   }),
 
@@ -167,16 +170,6 @@ export default {
         this.previousTokens.push(this.nextToken);
         this.nextNextToken = this.categories.nextToken;
         console.log(this.categories);
-    },
-
-    pageChange(pageNum) {
-        if (this.currentPage < pageNum) {
-            this.nextToken = this.nextNextToken;
-        } else {
-            this.nextToken = this.previousTokens.pop();
-        }
-        
-        this.getCategoriess();
     },
   }
 };
