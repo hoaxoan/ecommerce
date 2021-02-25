@@ -5,7 +5,6 @@ import { countProducts as countProductsQuery } from '@/graphql/queries';
 import { createProduct as createProductMutation } from "@/graphql/mutations";
 import { updateProduct as updateProductMutation } from "@/graphql/mutations";
 import { deleteProduct as deleteProductMutation } from "@/graphql/mutations";
-import { getImage as getImageQuery } from '@/graphql/queries';
 import { listImages as listImagesQuery } from '@/graphql/queries';
 import { createImage as createImageMutation } from "@/graphql/mutations";
 import { updateImage as updateImageMutation } from "@/graphql/mutations";
@@ -32,17 +31,17 @@ export const products = {
                 };
 
                 const productData = await API.graphql(graphqlOperation(createProductMutation, { input: product }));
-
+                const id = productData.data.createProduct.id;
                 // Images
                 if (newProduct.images != null && newProduct.images.length > 0) {
                     for (let i = 0; i < newProduct.images.length; i++) {
                         const image = newProduct.images[i];
-                        image.imageProductId = productData.id;
+                        image.imageProductId = id;
                         await dispatch("createUpdateImage", image);
                     }
                 }
 
-                return productData.data.createProduct;
+                return await dispatch("getProduct", id);
             } catch (error) {
                 console.log("createProduct", error);
             }
@@ -60,7 +59,7 @@ export const products = {
                     categoryId: newProduct.productCategoryId,
                 };
 
-                const productData = await API.graphql(graphqlOperation(updateProductMutation, { input: product }));
+                await API.graphql(graphqlOperation(updateProductMutation, { input: product }));
                 
                 // Images
                 if (newProduct.images != null && newProduct.images.length > 0) {
@@ -71,7 +70,7 @@ export const products = {
                     }
                 }
 
-                return productData.data.updateProduct;
+                return await dispatch("getProduct", product.id);
             } catch (error) {
                 console.log("updateProduct", error)
             }
@@ -213,14 +212,13 @@ export const products = {
         async createUpdateImage(_, data) {
             try {
                 const newImage = {
-                    id: data.id,
                     contentType: data.contentType,
                     fullsize: data.fullsize,
                     imageProductId: data.imageProductId
                 };
                 
-                const imageData = await API.graphql(graphqlOperation(getImageQuery, { id: newImage.id }))
-                if (imageData != null && imageData.id != null) {
+                if (data.id != null) {
+                    newImage.id = data.id;
                     const image = await API.graphql(graphqlOperation(updateImageMutation, { input: newImage }));
                     return Promise.resolve(image.data.updateImage);
                 }
@@ -238,12 +236,11 @@ export const products = {
                 aws_user_files_s3_bucket_region: region,
                 aws_user_files_s3_bucket: bucket
             } = awsconfig;
-            const { file } = data;
+            const { file, id } = data;
             const extension = file.name.substr(file.name.lastIndexOf(".") + 1);
             const imageId = uuidv4();
             const key = `images/${imageId}.${extension}`;
             const newImage = {
-                id: imageId,
                 contentType: file.type,
                 fullsize: {
                     key,
