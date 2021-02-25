@@ -28,7 +28,7 @@
         "OAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"http://localhost:8080/\"],\"LogoutURLs\":[\"http://localhost:8080/\"]}",
         "UserPoolName": "ecommerceceee04c2_userpool_ceee04c2"
       },
-      "lastPushTimeStamp": "2021-02-22T16:37:10.355Z",
+      "lastPushTimeStamp": "2021-02-25T17:55:04.968Z",
       "providerMetadata": {
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-ecommerce-dev-84455-deployment/amplify-cfn-templates/auth/ecommerceceee04c2-cloudformation-template.yml",
         "logicalId": "authecommerceceee04c2"
