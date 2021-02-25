@@ -10,6 +10,7 @@ import { createImage as createImageMutation } from "@/graphql/mutations";
 import { updateImage as updateImageMutation } from "@/graphql/mutations";
 import { v4 as uuidv4 } from 'uuid';
 import awsconfig from "@/aws-exports";
+import Vue from 'vue'
 
 export const products = {
     namespaced: true,
