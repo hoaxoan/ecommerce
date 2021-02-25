@@ -280,6 +280,7 @@ export const getImage = /* GraphQL */ `
       createdAt
       updatedAt
       owner
+      productId
     }
   }
 `;
@@ -309,6 +310,7 @@ export const listImages = /* GraphQL */ `
         createdAt
         updatedAt
         owner
+        productId
       }
       nextToken
     }

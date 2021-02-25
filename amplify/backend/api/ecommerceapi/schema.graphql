@@ -68,6 +68,7 @@ type Image
   createdAt: String
   updatedAt: String
   owner: String
+  productId: String
 }
 
 type S3Object @aws_iam @aws_cognito_user_pools {

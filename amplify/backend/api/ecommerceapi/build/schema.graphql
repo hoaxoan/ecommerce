@@ -52,6 +52,7 @@ type Image {
   createdAt: String
   updatedAt: String
   owner: String
+  productId: String
 }
 
 type S3Object @aws_iam @aws_cognito_user_pools {
@@ -430,6 +431,7 @@ input ModelImageFilterInput {
   createdAt: ModelStringInput
   updatedAt: ModelStringInput
   owner: ModelStringInput
+  productId: ModelStringInput
   and: [ModelImageFilterInput]
   or: [ModelImageFilterInput]
   not: ModelImageFilterInput
@@ -446,6 +448,7 @@ input CreateImageInput {
   createdAt: String
   updatedAt: String
   owner: String
+  productId: String
   imageProductId: ID
 }
 
@@ -460,6 +463,7 @@ input UpdateImageInput {
   createdAt: String
   updatedAt: String
   owner: String
+  productId: String
   imageProductId: ID
 }
 
@@ -474,6 +478,7 @@ input ModelImageConditionInput {
   size: ModelIntInput
   createdAt: ModelStringInput
   updatedAt: ModelStringInput
+  productId: ModelStringInput
   and: [ModelImageConditionInput]
   or: [ModelImageConditionInput]
   not: ModelImageConditionInput

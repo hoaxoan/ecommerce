@@ -38,6 +38,7 @@ export const products = {
                     for (let i = 0; i < newProduct.images.length; i++) {
                         const image = newProduct.images[i];
                         image.imageProductId = id;
+                        image.productId = id;
                         await dispatch("createUpdateImage", image);
                     }
                 }
@@ -67,6 +68,7 @@ export const products = {
                     for (let i = 0; i < newProduct.images.length; i++) {
                         const image = newProduct.images[i];
                         image.imageProductId = newProduct.id;
+                        image.productId = newProduct.id;
                         await dispatch("createUpdateImage", image);
                     }
                 }
@@ -105,7 +107,7 @@ export const products = {
                 // Images
                 if (product.images.items == null || 
                     product.images.items.length == 0) {
-                    const imagesData = await API.graphql(graphqlOperation(listImagesQuery, { imageProductId: id}));
+                    const imagesData = await API.graphql(graphqlOperation(listImagesQuery, { productId: id}));
 
                     const imageItems = await Promise.all(imagesData.data.listImages.items.map(async item => {
                         item.imageUrl = await Storage.get(item.fullsize.key);
@@ -114,7 +116,7 @@ export const products = {
 
                     if (imageItems.length > 0) {
                         const imageItem = Vue._.find(imageItems, function(item) { 
-                            return item.imageProductId == product.id; 
+                            return item.productId == product.id; 
                         });
                         if (imageItem != null) {
                             product.imageUrl = imageItem.imageUrl;
@@ -141,7 +143,7 @@ export const products = {
                 const product = products[i];
                 // Image
                 if (product.imageUrl == null) {
-                    const imagesData = await API.graphql(graphqlOperation(listImagesQuery, { imageProductId: product.id}));
+                    const imagesData = await API.graphql(graphqlOperation(listImagesQuery, { productId: product.id}));
                     if (imagesData.data.listImages.items != null &&
                         imagesData.data.listImages.items.length > 0) {
                         product.imageUrl = await Storage.get(imagesData.data.listImages.items[0].fullsize.key);
@@ -172,12 +174,12 @@ export const products = {
                 const product = products.items[i];
                 // Image
                 if (product.imageUrl == null) {
-                    const imagesData = await API.graphql(graphqlOperation(listImagesQuery, { imageProductId: product.id}));
+                    const imagesData = await API.graphql(graphqlOperation(listImagesQuery, { productId: product.id}));
                     if (imagesData.data.listImages.items != null &&
                         imagesData.data.listImages.items.length > 0) {
 
                         const imageItem = Vue._.find(imagesData.data.listImages.items, function(item) { 
-                            return item.imageProductId == product.id; 
+                            return item.productId == product.id; 
                         });
                         if (imageItem != null && imageItem.fullsize != null) {
                             product.imageUrl = await Storage.get(imageItem.fullsize.key);
@@ -210,7 +212,7 @@ export const products = {
         },
 
         async getImagesByProductId(_, productId) {
-            const imagesData = await API.graphql(graphqlOperation(listImagesQuery, { imageProductId: productId}));
+            const imagesData = await API.graphql(graphqlOperation(listImagesQuery, { productId: productId}));
 
             const imageItems = await Promise.all(imagesData.data.listImages.items.map(async item => {
                 item.imageUrl = await Storage.get(item.fullsize.key);
@@ -225,7 +227,7 @@ export const products = {
                 const newImage = {
                     contentType: data.contentType,
                     fullsize: data.fullsize,
-                    imageProductId: data.imageProductId
+                    productId: data.productId
                 };
                 
                 if (data.id != null) {

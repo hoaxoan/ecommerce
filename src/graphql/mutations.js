@@ -262,6 +262,7 @@ export const createImage = /* GraphQL */ `
       createdAt
       updatedAt
       owner
+      productId
     }
   }
 `;
@@ -298,6 +299,7 @@ export const updateImage = /* GraphQL */ `
       createdAt
       updatedAt
       owner
+      productId
     }
   }
 `;
@@ -334,6 +336,7 @@ export const deleteImage = /* GraphQL */ `
       createdAt
       updatedAt
       owner
+      productId
     }
   }
 `;

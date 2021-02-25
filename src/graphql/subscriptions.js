@@ -223,6 +223,7 @@ export const onCreateImage = /* GraphQL */ `
       createdAt
       updatedAt
       owner
+      productId
     }
   }
 `;
@@ -256,6 +257,7 @@ export const onUpdateImage = /* GraphQL */ `
       createdAt
       updatedAt
       owner
+      productId
     }
   }
 `;
@@ -289,6 +291,7 @@ export const onDeleteImage = /* GraphQL */ `
       createdAt
       updatedAt
       owner
+      productId
     }
   }
 `;
