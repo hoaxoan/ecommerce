@@ -7,7 +7,6 @@ import '@aws-amplify/ui-vue';
 import aws_exports from './aws-exports';
 import { BootstrapVue, ToastPlugin, ModalPlugin, BootstrapVueIcons } from 'bootstrap-vue'
 import PortalVue from 'portal-vue'
-import VueCompositionAPI from '@vue/composition-api'
 import FeatherIcon from '@/components/FeatherIcon.vue'
 
 // Global Components
@@ -18,9 +17,6 @@ require('@/scss/core.scss')
 
 // 3rd party plugins
 Vue.use(PortalVue)
-
-// Composition API
-Vue.use(VueCompositionAPI)
 
 // BSV Plugin Registration
 Vue.use(BootstrapVue)
@@ -62,12 +58,6 @@ const updatedAwsConfig = {
   },
   Analytics: { 
     disabled: true
-  },
-  Storage: {
-    AWSS3: {
-        bucket: 'ecommerce537e1cf3046b437e855f2f3427a71ebc84455-dev', // Amazon S3 bucket name
-        region: 'us-east-2', // Amazon service region
-    }
   }
 }
 

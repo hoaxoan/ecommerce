@@ -10,16 +10,16 @@
 </template>
 <script>
 import Nav from "@/components/Nav.vue";
-import { mapActions } from "vuex";
+//import { mapActions } from "vuex";
 export default {
   mounted() {
-    this.currentUser();
+    //this.currentUser();
   },
   components: {
     Nav,
   },
   methods: {
-    ...mapActions("users", ["currentUser"]),
+    //...mapActions("users", ["currentUser"]),
   },
   setup() {
     // const currentUser = this.$store.dispatch("users/currentUser");

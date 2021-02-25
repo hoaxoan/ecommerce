@@ -158,7 +158,6 @@
 import {
   BRow, BCol, BFormGroup, BFormInput, BForm, BButton,
 } from 'bootstrap-vue'
-import { ref } from '@vue/composition-api'
 
 export default {
   components: {
@@ -174,7 +173,7 @@ export default {
       type: Object
     },
     categories: [],
-    categoryId: ref(null),
+    categoryId: null,
     images: [],
     defaultImage: require('@/assets/upload.png'),
     breadcrumbs: [

@@ -65,6 +65,7 @@
 
 <script>
 import { mapGetters } from "vuex";
+import EventBus from './../store/eventBus';
 
 export default {
   components: {
@@ -80,34 +81,18 @@ export default {
     isAdmin: false,
   }),
 
-  async mounted() {
-    if (this.currentUser == null) {
-      this.user = await this.$store.dispatch("users/currentUser");
-    }
+  async created() {
+    EventBus.$on('logged', (data) => {
+      console.log(data)
+      this.user = data;
+      this.setRole();
+    });
 
-    if (this.user != null) {
-      this.isLogin = true;
-    } else {
-      this.isLogin = false;
-    }
-
-    if (this.user != null && this.user.role == "admin") {
-      this.isAdmin = true;
-    } else {
-      this.isAdmin = false;
-    }
-
-    if (this.user != null && this.user.role == "shop") {
-      this.isShop = true;
-    } else {
-      this.isShop = false;
-    }
-
-    if (!this.isAdmin && !this.isShop) {
-      this.isUser = true;
-    } else {
-      this.isUser = false;
-    }
+    // if (this.currentUser == null) {
+    //   this.user = await this.$store.dispatch("users/currentUser");
+    // }
+  
+    
   },
   methods: {
     async logout() {
@@ -119,6 +104,32 @@ export default {
       this.isAdmin = false;
       this.$router.push("/login");
     },
+
+    async setRole() {
+      if (this.user != null) {
+        this.isLogin = true;
+      } else {
+        this.isLogin = false;
+      }
+
+      if (this.user != null && this.user.role == "admin") {
+        this.isAdmin = true;
+      } else {
+        this.isAdmin = false;
+      }
+
+      if (this.user != null && this.user.role == "shop") {
+        this.isShop = true;
+      } else {
+        this.isShop = false;
+      }
+
+      if (!this.isAdmin && !this.isShop) {
+        this.isUser = true;
+      } else {
+        this.isUser = false;
+      }
+    }
 
   },
   computed: {
