@@ -39,7 +39,7 @@
                       <template #aside>
                       <b-avatar rounded
                           size="32"
-                          :src="data.item.imageUrl"
+                          :src="data.item.imageUrl != null && data.item.imageUrl.length > 0 ? data.item.imageUrl: defaultImage"
                       />
                       </template>
                   </b-media>
@@ -375,6 +375,7 @@ export default {
     previousTokens: [],
     perPage: 10,
     sortDirection: 'id',
+    defaultImage: require('@/assets/upload.png'),
   }),
 
   async mounted() {

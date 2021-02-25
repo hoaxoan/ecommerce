@@ -85,7 +85,7 @@
                           <b-carousel-slide
                             v-for="image in images"
                             :key="image.id"
-                            :img-src="image.imageUrl"
+                            :img-src="id != null && id != -1 ? image.imageUrl : defaultImage"
                             style="width: 320px; height: 320px; top: -30px;"
                           ></b-carousel-slide>
                       </b-carousel>
