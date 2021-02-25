@@ -36,7 +36,7 @@
           >
             <div class="d-flex align-items-center justify-content-center">
               <b-img
-                :src="product.imageUrl != null && product.imageUrl.length > 0 ? defaultImage : defaultImage"
+                :src="product.imageUrl != null && product.imageUrl.length > 0 ? product.imageUrl : defaultImage"
                 :alt="`Image of ${product.name}`"
                 class="product-img"
                 fluid
