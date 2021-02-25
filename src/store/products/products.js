@@ -108,21 +108,18 @@ export const products = {
                 if (product.images.items == null || 
                     product.images.items.length == 0) {
                     const imagesData = await API.graphql(graphqlOperation(listImagesQuery, { productId: id}));
-
-                    const imageItems = await Promise.all(imagesData.data.listImages.items.map(async item => {
-                        item.imageUrl = await Storage.get(item.fullsize.key);
-                        return item
-                    }));
-
-                    if (imageItems.length > 0) {
-                        const imageItem = Vue._.find(imageItems, function(item) { 
-                            return item.productId == product.id; 
-                        });
-                        if (imageItem != null) {
-                            product.imageUrl = imageItem.imageUrl;
+                    var imageItems = [];
+                    if (imagesData.data.listImages.items != null && imagesData.data.listImages.items.length > 0) {
+                        for (let i = 0; i < imagesData.data.listImages.items.length; i++) {
+                            const imageData = imagesData.data.listImages.items[i];
+                            if (imageData.productId == product.id && imageData.fullsize != null) {
+                                imageData.imageUrl = await Storage.get(imageData.fullsize.key);
+                                imageItems.push(imageData);
+                                product.imageUrl = imageData.imageUrl;
+                            }
+                            
                         }
                     }
-        
                     product.images.items = imageItems;
                 }
 
