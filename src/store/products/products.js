@@ -236,7 +236,7 @@ export const products = {
                 aws_user_files_s3_bucket_region: region,
                 aws_user_files_s3_bucket: bucket
             } = awsconfig;
-            const { file, id } = data;
+            const { file } = data;
             const extension = file.name.substr(file.name.lastIndexOf(".") + 1);
             const imageId = uuidv4();
             const key = `images/${imageId}.${extension}`;
