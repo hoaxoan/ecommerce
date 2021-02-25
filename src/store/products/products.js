@@ -112,7 +112,12 @@ export const products = {
                     }));
 
                     if (imageItems.length > 0) {
-                        product.imageUrl = imageItems[0].imageUrl;
+                        const imageItem = Vue._.find(imageItems, function(item) { 
+                            return item.imageProductId == product.id; 
+                        });
+                        if (imageItem != null) {
+                            product.imageUrl = imageItem.imageUrl;
+                        }
                     }
         
                     product.images.items = imageItems;
@@ -168,9 +173,14 @@ export const products = {
                 if (product.imageUrl == null) {
                     const imagesData = await API.graphql(graphqlOperation(listImagesQuery, { imageProductId: product.id}));
                     if (imagesData.data.listImages.items != null &&
-                        imagesData.data.listImages.items.length > 0 &&
-                        imagesData.data.listImages.items[0].fullsize != null) {
-                        product.imageUrl = await Storage.get(imagesData.data.listImages.items[0].fullsize.key);
+                        imagesData.data.listImages.items.length > 0) {
+
+                        const imageItem = Vue._.find(imagesData.data.listImages.items, function(item) { 
+                            return item.imageProductId == product.id; 
+                        });
+                        if (imageItem != null && imageItem.fullsize != null) {
+                            product.imageUrl = await Storage.get(imageItem.fullsize.key);
+                        }
                     }
                 }
             }

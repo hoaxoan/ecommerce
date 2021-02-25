@@ -8,7 +8,9 @@ import aws_exports from './aws-exports';
 import { BootstrapVue, ToastPlugin, ModalPlugin, BootstrapVueIcons } from 'bootstrap-vue'
 import PortalVue from 'portal-vue'
 import FeatherIcon from '@/components/FeatherIcon.vue'
-
+import VueLodash from 'vue-lodash'
+import lodash from 'lodash'
+ 
 // Global Components
 import './assets/main.scss'
 
@@ -23,9 +25,11 @@ Vue.use(BootstrapVue)
 Vue.use(BootstrapVueIcons)
 Vue.use(ToastPlugin)
 Vue.use(ModalPlugin)
+Vue.use(VueLodash, { name: 'custom' , lodash: lodash })
 
 // Component
 Vue.component(FeatherIcon.name, FeatherIcon)
+
 
 // Amplify Configure
 const isLocalhost = Boolean(

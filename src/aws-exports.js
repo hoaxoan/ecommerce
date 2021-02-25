@@ -18,7 +18,9 @@ const awsmobile = {
         ],
         "redirectSignIn": "https://master.d2mwjs2xaz0xx0.amplifyapp.com/",
         "redirectSignOut": "https://master.d2mwjs2xaz0xx0.amplifyapp.com/",
-        "responseType": "code"
+        "responseType": "code",
+        "productionRedirectSignIn": "https://master.d2mwjs2xaz0xx0.amplifyapp.com/",
+        "productionRedirectSignOut": "https://master.d2mwjs2xaz0xx0.amplifyapp.com/"
     },
     "federationTarget": "COGNITO_USER_POOLS",
     "aws_user_files_s3_bucket": "ecommerce537e1cf3046b437e855f2f3427a71ebc180702-staging",

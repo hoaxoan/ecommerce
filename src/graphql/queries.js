@@ -279,7 +279,7 @@ export const getImage = /* GraphQL */ `
       }
       createdAt
       updatedAt
-      owner,
+      owner
       imageProductId
     }
   }
@@ -309,7 +309,7 @@ export const listImages = /* GraphQL */ `
         size
         createdAt
         updatedAt
-        owner,
+        owner
         imageProductId
       }
       nextToken
